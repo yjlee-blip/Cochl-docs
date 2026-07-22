@@ -7,10 +7,14 @@ import {
   MarkdownCopyButton,
   ViewOptionsPopover,
 } from 'fumadocs-ui/layouts/notebook/page';
+import { findNeighbour } from 'fumadocs-core/page-tree';
 import { notFound } from 'next/navigation';
 import { getMDXComponents } from '@/components/mdx';
+import { PageFooter } from '@/components/page-footer';
 import type { Metadata } from 'next';
 import { createRelativeLink } from 'fumadocs-ui/mdx';
+
+const GITHUB_REPO = 'https://github.com/yjlee-blip/Cochl-docs';
 
 export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
   const params = await props.params;
@@ -19,9 +23,10 @@ export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
 
   const MDX = page.data.body;
   const markdownUrl = getPageMarkdownUrl(page).url;
+  const { previous, next } = findNeighbour(source.pageTree, page.url, { separateRoot: true });
 
   return (
-    <DocsPage toc={page.data.toc} full={page.data.full}>
+    <DocsPage toc={page.data.toc} full={page.data.full} footer={{ enabled: false }}>
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription className="mb-0">{page.data.description}</DocsDescription>
       <div className="flex flex-row gap-2 items-center border-b pb-6">
@@ -36,6 +41,11 @@ export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
           })}
         />
       </DocsBody>
+      <PageFooter
+        previous={previous}
+        next={next}
+        editUrl={`${GITHUB_REPO}/edit/main/content/docs/${page.path}`}
+      />
     </DocsPage>
   );
 }
