@@ -20,7 +20,7 @@ export function PageFooter({
   editUrl: string;
 }) {
   return (
-    <div className="mt-12 flex flex-col gap-6 border-t border-fd-border pt-6">
+    <div className="mt-12 flex flex-col gap-8 border-t border-fd-border pt-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <FeedbackButtons />
         <Link
@@ -59,7 +59,7 @@ export function PageFooter({
         </div>
       )}
 
-      <div className="flex items-center justify-between gap-4 border-t border-fd-border pt-6">
+      <div className="flex items-center justify-between gap-4 border-t border-fd-border pt-8">
         <div className="flex items-center gap-4 text-fd-muted-foreground">
           <SocialLink href="https://github.com/cochlearai" label="GitHub">
             <GithubIcon />
