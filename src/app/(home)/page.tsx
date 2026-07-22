@@ -89,12 +89,6 @@ function Hero() {
             Get Started
             <ArrowRight className="size-4" />
           </Link>
-          <Link
-            href="/docs/cloud-api/rest-api-reference"
-            className="inline-flex items-center gap-2 rounded-lg border border-fd-border px-5 py-2.5 text-sm font-medium text-fd-foreground transition-colors hover:bg-fd-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fd-ring"
-          >
-            API Reference
-          </Link>
         </div>
       </div>
     </section>

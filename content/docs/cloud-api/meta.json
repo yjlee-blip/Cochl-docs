@@ -1,5 +1,6 @@
 {
   "title": "Cochl.Sense Cloud API",
+  "root": true,
   "pages": [
     "getting-started",
     "---Features---",

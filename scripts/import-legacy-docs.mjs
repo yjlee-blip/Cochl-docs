@@ -302,7 +302,9 @@ async function writeMeta(section) {
     if (rest !== 'index') subfolders.get(folder).push(rest);
   }
 
-  const meta = { title: section.title, pages: topLevelPages };
+  // "root: true" makes this section its own top nav tab (Stripe-style),
+  // with its own sidebar tree instead of being stacked with the others.
+  const meta = { title: section.title, root: true, pages: topLevelPages };
   const filePath = path.join(CONTENT_DIR, section.key, 'meta.json');
   await fs.mkdir(path.dirname(filePath), { recursive: true });
   await fs.writeFile(filePath, JSON.stringify(meta, null, 2) + '\n');

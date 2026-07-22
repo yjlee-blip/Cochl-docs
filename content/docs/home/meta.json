@@ -1,5 +1,6 @@
 {
   "title": "Home",
+  "root": true,
   "pages": [
     "introduction",
     "dashboard-quickstart"

@@ -1,5 +1,6 @@
 {
   "title": "Cochl Security",
+  "root": true,
   "pages": [
     "---Overview---",
     "introduction",
