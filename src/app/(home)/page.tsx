@@ -73,7 +73,7 @@ function Hero() {
           <span>Documentation</span>
         </div>
 
-        <h1 className="text-4xl font-medium tracking-tight text-fd-foreground sm:text-5xl">
+        <h1 className="text-4xl font-bold tracking-tight text-fd-foreground sm:text-5xl">
           Cochl.Sense
         </h1>
         <p className="mt-4 max-w-lg text-base text-fd-muted-foreground sm:text-lg">

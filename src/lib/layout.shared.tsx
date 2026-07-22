@@ -24,14 +24,14 @@ export function baseOptions(): BaseLayoutProps {
     links: [
       {
         type: 'main',
-        text: 'Contact us',
-        url: externalLinks.contactUs,
+        text: 'Dashboard',
+        url: externalLinks.dashboard,
         external: true,
       },
       {
-        type: 'button',
-        text: 'Dashboard',
-        url: externalLinks.dashboard,
+        type: 'main',
+        text: 'Contact us',
+        url: externalLinks.contactUs,
         external: true,
       },
     ],
