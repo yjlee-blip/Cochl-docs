@@ -107,20 +107,21 @@ function EntryPoints() {
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        {entryPoints.map((item) => (
-          <EntryCard key={item.href} {...item} />
+        {entryPoints.map((item, index) => (
+          <EntryCard key={item.href} index={index} {...item} />
         ))}
       </div>
     </section>
   );
 }
 
-function EntryCard(props: (typeof entryPoints)[number]) {
-  const { href, icon: Icon, title, description, accent } = props;
+function EntryCard(props: (typeof entryPoints)[number] & { index: number }) {
+  const { href, icon: Icon, title, description, accent, index } = props;
   return (
     <Link
       href={href}
-      className={`group flex flex-col gap-3 rounded-xl border border-fd-border bg-white p-5 transition-all hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fd-ring dark:bg-fd-card ${borderHoverClasses[accent]}`}
+      style={{ animationDelay: `${index * 80}ms` }}
+      className={`group flex flex-col gap-3 rounded-xl border border-fd-border bg-white p-5 transition-all hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fd-ring animate-fade-up dark:bg-fd-card ${borderHoverClasses[accent]}`}
     >
       <div className="flex items-center justify-between">
         <span
