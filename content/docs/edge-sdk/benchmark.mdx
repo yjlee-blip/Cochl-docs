@@ -1,0 +1,188 @@
+---
+title: "Benchmark"
+---
+## Benchmark methods
+
+### (1) CPU usage
+
+CPU usage is calculated using process perspective measurement for the PID after launching App `sense-stream`. The result can exceed 100% for multi-threaded applications utilizing multiple cores simultaneously. CPU usage is sampled once per second within each minute, and the final value is the arithmetic mean of these samples.
+
+*   **Measurement: `(process_cpu_time_delta / system_cpu_time_delta) × 100`**
+*   **Unit: %**
+
+### (2) Memory usage
+
+Memory usage is calculated by summing the PSS (Proportional Set Size) and swap memory of the PID after launching App `sense-stream`. PSS provides fair allocation of shared memory usage across processes. Memory usage is sampled once per second within each minute, and the final value is the arithmetic mean of these samples.
+
+*   **Measurement: `PSS + SwapPss` from `/proc/pid/smaps`**
+*   **Unit: KB**
+
+### (3) Inference time
+
+Inference time refers to the time it takes to process a single window after launching App `sense-stream`. The measurement is log-based, parsing `prediction_time` values from application JSON logs. The number of measurements depends on the application’s `push_period` configuration. Inference time is measured over each minute, and the final value is the arithmetic mean of all measurements in that minute.
+
+*   **Measurement: JSON `prediction_time` field parsing from application stdout**
+*   **Unit: ms**
+
+### (4) Inference benchmark across devices
+
+All benchmarks were conducted using the methods described above. The following table provides a consolidated overview of hardware specifications and benchmark results for the Cochl.Sense Edge SDK on each supported platform. Metrics include CPU configuration, memory, and average inference time based on the Cochl.Sense Edge SDK v1.6.0.
+
+| Device | CPU | Memory | CPU usage (%) | Memory usage (KB) | Inference time (ms) |
+| --- | --- | --- | --- | --- | --- |
+| Raspberry Pi 3 | ARM Cortex-A53 (4 cores, 1.2GHz) | 1 GB | 7.79 | 54,797 | 173.24 |
+| Raspberry Pi 4 | ARM Cortex-A72 (4 cores, 1.8GHz) | 4 GB | 6.75 | 53,612 | 156.48 |
+| NVIDIA Orin Nano | ARM v8 (6 cores, 1.5GHz) | 8 GB | 1.52 | 57,354 | 46.05 |
+| NVIDIA Jetson Orin Nano | ARM v8 (4 cores, 1.5GHz) | 4 GB | 4.45 | 54,593 | 94.34 |
+| Ubuntu 22 Desktop | Intel Core i7-8700K (12 cores, 3.7GHz) | 64 GB | 0.00 | 55,118 | 13.26 |
+| Ubuntu 18 Desktop | Intel Core i7-8700 (12 cores, 3.2GHz) | 32 GB | 0.42 | 54,648 | 10.40 |
+
+## Raspberry Pi 3 Model B Rev 1.2
+
+*   **CPU info**: 4 Core 1.2GHz Cortex-A53, **CoreMark score**: 5597.39
+*   **RAM size**: 1 GB
+*   **OS version**: Debian GNU/Linux 11 (bullseye) (Debian Version: 11)
+*   **Kernel version**: 6.1.21-v8+
+*   **System architecture**: aarch64
+*   **Storage (Device model)**: SC32G
+*   **Ethernet interface info**:
+    *   **Interface**: eth0
+    *   **Speed**: 100Mb/s
+    *   **Driver**: smsc95xx
+
+### CPU usage
+
+![rpi3\_cpu\_usage](/images/docs/v1.6.0_rpi3_cpu_usage.png)
+
+### Memory usage
+
+![rpi3\_cpu\_usage](/images/docs/v1.6.0_rpi3_mem_usage.png)
+
+### Average inference time
+
+![rpi3\_cpu\_usage](/images/docs/v1.6.0_rpi3_inf_time.png)
+
+## Raspberry Pi 4 Model B Rev 1.4
+
+*   **CPU info**: 4 Core 1.8GHz Cortex-A72, **CoreMark score**: 15371.61
+*   **RAM size**: 4 GB
+*   **OS version**: Debian GNU/Linux 11 (bullseye) (Debian Version: 11)
+*   **Kernel version**: 6.1.21-v8+
+*   **System architecture**: aarch64
+*   **Storage (Device model)**: SC32G
+*   **Ethernet interface info**:
+    *   **Interface**: eth0
+    *   **Speed**: 1000Mb/s
+    *   **Driver**: bcmgenet
+
+### CPU usage
+
+![rpi4\_cpu\_usage](/images/docs/v1.6.0_rpi4_cpu_usage.png)
+
+### Memory usage
+
+![rpi4\_cpu\_usage](/images/docs/v1.6.0_rpi4_mem_usage.png)
+
+### Average inference time
+
+![rpi4\_cpu\_usage](/images/docs/v1.6.0_rpi4_inf_time.png)
+
+## NVIDIA Orin Nano Developer Kit
+
+*   **CPU info**: 6 Core 1.5GHz ARMv8 Processor rev 1 (v8l), **CoreMark score**: 23618.33
+*   **RAM size**: 8 GB
+*   **OS version**: Ubuntu 20.04.5 LTS (Debian Version: 20.04)
+*   **Kernel version**: 5.10.104-tegra
+*   **System architecture**: aarch64
+*   **Storage (Device model)**: FORESEE XP1000F256G
+*   **Ethernet interface info**:
+    *   **Interface**: eth0
+    *   **Speed**: 1000Mb/s
+    *   **Driver**: r8169
+
+### CPU usage
+
+![nvidia\_orin\_cpu\_usage](/images/docs/v1.6.0_orin_cpu_usage.png)
+
+### Memory usage
+
+![nvidia\_orin\_cpu\_usage](/images/docs/v1.6.0_orin_mem_usage.png)
+
+### Average inference time
+
+![nvidia\_orin\_cpu\_usage](/images/docs/v1.6.0_orin_inf_time.png)
+
+## NVIDIA Jetson Orin Nano Developer Kit
+
+*   **CPU info**: 4 Core 1.5GHz ARMv8 Processor rev 1 (v8l), **CoreMark score**: 10287.01
+*   **RAM size**: 4 GB
+*   **OS version**: Ubuntu 18.04.6 LTS (Debian Version: 18.04)
+*   **Kernel version**: 4.9.201-tegra
+*   **System architecture**: aarch64
+*   **Storage (Device model)**: SS32G
+*   **Ethernet interface info**:
+    *   **Interface**: eth0
+    *   **Speed**: 1000Mb/s
+    *   **Driver**: r8168
+
+### CPU usage
+
+![nvidia\_jetson\_cpu\_usage](/images/docs/v1.6.0_jetson-nano_cpu_usage.png)
+
+### Memory usage
+
+![nvidia\_jetson\_mem\_usage](/images/docs/v1.6.0_jetson-nano_mem_usage.png)
+
+### Average inference time
+
+![nvidia\_jetson\_inf\_time](/images/docs/v1.6.0_jetson-nano_inf_time.png)
+
+## Linux-6.8.0-47-generic-x86\_64-with-glibc2.35
+
+*   **CPU info**: 12 Core 4.7GHz Intel(R) Core(TM) i7-8700K CPU @ 3.70GHz, **CoreMark score**: 52548.61
+*   **RAM size**: 64 GB
+*   **OS version**: Ubuntu 22.04.5 LTS (Debian Version: 22.04)
+*   **Kernel version**: 6.8.0-47-generic
+*   **System architecture**: x86\_64
+*   **Storage (Device model)**: Samsung SSD 980 PRO 1TB
+*   **Ethernet interface info**:
+    *   **Interface**: enp0s31f6
+    *   **Speed**: 1000Mb/s
+    *   **Driver**: e1000e
+
+### CPU usage
+
+![ubuntu22\_cpu\_usage](/images/docs/v1.6.0_ubu22_cpu_usage.png)
+
+### Memory usage
+
+![ubuntu22\_cpu\_usage](/images/docs/v1.6.0_ubu22_mem_usage.png)
+
+### Average inference time
+
+![ubuntu22\_cpu\_usage](/images/docs/v1.6.0_ubu22_inf_time.png)
+
+## Linux-5.4.0-150-generic-x86\_64-with-glibc2.27
+
+*   **CPU info**: 12 Core 4.6GHz Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz, **CoreMark score**: 35207.14
+*   **RAM size**: 32 GB
+*   **OS version**: Ubuntu 18.04.6 LTS (Debian Version: 18.04)
+*   **Kernel version**: 5.4.0-150-generic
+*   **System architecture**: x86\_64
+*   **Storage (Device model)**: Samsung SSD 860
+*   **Ethernet interface info**:
+    *   **Interface**: enp2s0
+    *   **Speed**: 1000Mb/s
+    *   **Driver**: r8169
+
+### CPU usage
+
+![ubuntu18\_cpu\_usage](/images/docs/v1.6.0_ubu18_cpu_usage.png)
+
+### Memory usage
+
+![ubuntu18\_cpu\_usage](/images/docs/v1.6.0_ubu18_mem_usage.png)
+
+### Average inference time
+
+![ubuntu18\_cpu\_usage](/images/docs/v1.6.0_ubu18_inf_time.png)

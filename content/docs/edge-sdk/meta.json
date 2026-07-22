@@ -1,0 +1,14 @@
+{
+  "title": "Cochl.Sense Edge SDK",
+  "pages": [
+    "getting-started",
+    "---Features---",
+    "sound-event-detection",
+    "---Reference---",
+    "samples",
+    "advanced-configurations",
+    "resources",
+    "benchmark",
+    "release-notes"
+  ]
+}

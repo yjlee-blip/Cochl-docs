@@ -1,0 +1,191 @@
+---
+title: "FAQs"
+---
+## Account
+
+ Why can’t I receive the verification email?
+
+If you're not receiving your verification email, it might be because our system temporarily blocked you due to multiple verification attempts, or there was an issue with your first request. Please retry again in a few hours and ensure your email address is correct. Additionally, check that you're not using any filters that might mark our verification email as spam.
+
+ Can I change my Google authentication accounts?
+
+If you sign up for your account using Google authentication, we currently don't support changing the email address associated with your account. Alternatively, you can sign up for another account and transfer your previous account's plan to the new account.
+
+To do this, please reach out to us by sending an email to [support@cochl.ai](mailto:support@cochl.ai).
+
+ What happens to my projects after my subscription ends?
+
+You can still access your projects and view analytics. However, if you want to continue using Cochl.Sense or access additional features, you will need to maintain or upgrade your subscription.
+
+ I want to delete my account and all my saved data. How can I delete it?
+
+Follow these steps to delete your account and all saved data:
+
+*   1\. Go to the [Accounts](http://accounts.cochl.ai/) page, find the **Settings** and click the **Edit** button.
+*   2\. Scroll down and click the **Delete** button.
+*   3\. Confirm the deletion of your account and data.
+
+_\* Please note that Cochl cannot restore your account and saved data once deleted, so proceed with caution._
+
+ How do I reset my password?
+
+To reset your password, follow these steps:
+
+*   1\. Go to the [Accounts](http://accounts.cochl.ai/) page, find the **Settings**, and click the **Edit** button.
+*   2\. Scroll down and locate the **Change Password** section.
+*   3\. Enter your new password and click **Change Password** to confirm it.
+
+## Payment & Billing
+
+ What is the billing plan, and how can I change my plan or subscription?
+
+Cochl offers three billing plans: Free, Standard, and Enterprise. The Standard and Enterprise plans are paid options and are billed monthly.
+
+To change your plan, follow these steps:
+
+*   1\. Go to the [Dashboard](http://dashboard.cochl.ai/) page and click on **Billing** in the top menu bar.
+*   2\. Find the **Plan** section and click the **Manage Plan** button.
+*   3\. Select the plan you want and click **Confirm** to finalize your change.
+
+Alternatively, click your profile in the top-right corner of the Dashboard and select **Upgrade Plan**.
+
+ What happens when I use all my free-tier credits?
+
+Cochl provides a 20-minute free trial to all users.
+
+*   Using Cochl.Sense via the **Python client library**: once you use all your free trial minutes, you will receive the following message: _"Please upgrade your plan or contact [support@cochl.ai](mailto:support@cochl.ai)."_
+*   Using Cochl.Sense via **Drag and Drop or Browse in the Dashboard**: you will receive a similar message when your free credits are exhausted, prompting you to upgrade your plan.
+
+ Can I change my billing method?
+
+Yes, you can change your billing method by following these steps:
+
+*   1\. Go to the [Dashboard](http://dashboard.cochl.ai/) page and click on **Billing** in the top menu bar.
+*   2\. Navigate to the **Payment Methods** tab and remove the pre-registered card by clicking on it.
+*   3\. Click the **Add New Card** button to register a new payment method.
+
+ Why is my payment failing?
+
+If your payment is failing, please check the following:
+
+*   1\. **Double-check your card details**: make sure your card number, expiration date, and CVC are entered correctly.
+*   2\. **Clear your browser's cache and cookies**, then retry the transaction.
+*   3\. **Check your bank balance**: ensure there are sufficient funds in your account.
+
+If you have checked all of the above and are still experiencing issues, please reach out to us by sending an email to [support@cochl.ai](mailto:support@cochl.ai).
+
+ Where can I find my billing invoices?
+
+You can find your billing invoices by following these steps:
+
+*   1\. Go to the [Dashboard](http://dashboard.cochl.ai/) page and click on **Billing** in the top menu bar.
+*   2\. Click the **Invoices** tab under Billing to view your upcoming invoices and invoice history.
+
+ Do you offer any discounts on pricing?
+
+Please contact our sales team to discuss available discounts.
+
+## Dashboard
+
+ How do I check my credit usage?
+
+To check your **credit usage**, follow these steps:
+
+*   1\. Go to the [Dashboard](http://dashboard.cochl.ai/) page and click on **Usage** in the menu bar.
+*   2\. You can check your monthly usage for Cloud API and Edge SDK for the past five months.
+
+If you are looking for **detailed analytics of detected sound**, follow these steps:
+
+*   1\. Go to the [Dashboard](http://dashboard.cochl.ai/) page and click on **Projects** at the top.
+*   2\. Select the project you want to inspect.
+*   3\. Click **Analytics** to view detailed analytics for that project.
+
+ Can I track usage by project or team?
+
+Currently, you can track monthly usage by project.
+
+ How many projects can I add?
+
+There is no limit to the number of projects you can add.
+
+ Where can I find the other products you offer?
+
+Go to the official Cochl website and click on **Products** in the top menu bar. There you'll find information about all of our available products.
+
+## Deployment
+
+ How long does sound detection take?
+
+Processing time scales with the length of the uploaded audio. A single upload is capped at **1 hour** of audio per request, and there is **no concurrent-request limit** — for longer recordings, split them client-side and issue requests in parallel.
+
+ What file types are supported by the Cochl.Sense Cloud API? Are there recommended formats?
+
+You can upload a file in MP3, WAV, FLAC, or OGG format.
+
+ Where can I find information about the supported environments and architectures for the Cochl.Sense Cloud API and Cochl.Sense Edge SDK?
+
+The **Cochl.Sense Cloud API** is a hosted service — anything that can make an HTTPS request and run the [`cochl` Python client](https://github.com/cochlearai/cochl-sense-py) (Python 3.10+) can use it.
+
+For the **Cochl.Sense Edge SDK**, see [Edge SDK → Resources → Supported architectures](/docs/edge-sdk/resources#2-supported-architectures) for the OS / CPU / GPU matrix.
+
+For further questions, feel free to contact us at [support@cochl.ai](mailto:support@cochl.ai).
+
+ Is it possible to use an NPU or GPU?
+
+The Cochl.Sense Edge SDK can run with GPU acceleration and will be released officially soon with support for several JetPack versions.
+
+For NPU support, we currently offer a custom version of the NPU-accelerated SDK exclusively to enterprise customers.
+
+For further questions, feel free to contact us at [support@cochl.ai](mailto:support@cochl.ai).
+
+ How much hardware resource is required?
+
+Using the CPU version of the SDK:
+
+*   CPU: ARM Cortex-A53 (2.3 DMIPS/MHz)
+*   RAM: 256 MB to 512 MB
+
+Using the GPU version of the SDK:
+
+*   GPU: NVIDIA GPU with at least 4 GB of VRAM
+*   RAM: at least 4 GB if no VRAM is available
+
+ How do I get started with the Cochl.Sense Cloud API / Edge SDK and learn more about it?
+
+To get started, follow these steps:
+
+*   1\. Go to the [Cochl documentation page](https://docs.cochl.ai/) and click **Home** on the left sidebar.
+*   2\. Find the **Dashboard Quick Start** page and follow the steps provided.
+*   3\. For supported environments, references, or code samples, click either **Cochl.Sense Cloud API** or **Cochl.Sense Edge SDK** depending on what you're building.
+
+ Where do I find my Project Key?
+
+To find your Project Key, follow these steps:
+
+*   1\. Go to the [Dashboard](http://dashboard.cochl.ai/) page and click on **Projects** in the top menu bar.
+*   2\. Select the project you want.
+*   3\. Click **Copy Project Key** on the right side of the screen. Alternatively, open the **Settings** tab and copy it from there.
+
+ How do I monitor the performance of my deployment?
+
+You can use your system's hardware monitoring utilities to compare performance before and after running the Cochl.Sense Edge SDK.
+
+For example, on Linux you can use the `htop` command for the CPU SDK, and `nvidia-smi` or `tegrastats` for the GPU SDK.
+
+## Troubleshooting
+
+ How can I get more information about an error? How do I contact support?
+
+To get more information about an error:
+
+*   If you're using the **Python client library**, every API failure raises `cochl.sense.exception.CochlSenseException` with the server's error message — wrap your calls in a `try / except` and log the exception text.
+*   If you're calling the legacy audio-session REST endpoints directly, see the [legacy API error responses](https://api.cochl.ai/sense/api/v1/docs/#tag/Audio-Session/operation/create_session).
+*   Refer to this FAQs page for solutions to common issues.
+
+If you can't find an appropriate answer, please report your problem by emailing us at [support@cochl.ai](mailto:support@cochl.ai).
+
+ My project key doesn't work. What should I do?
+
+If the project key doesn't work, please reset your key. If the reset button doesn't work, we recommend creating a new project and trying again.
+
+If you still have an issue, please reach out to us by sending an email to [support@cochl.ai](mailto:support@cochl.ai).

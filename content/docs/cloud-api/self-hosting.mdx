@@ -1,0 +1,81 @@
+---
+title: "Self-Hosting"
+description: "Cochl.Sense Cloud API on VM is a virtual machine (VM) solution that allows you to host Cochl.Sense Cloud API, an advanced sound recognition AI model…"
+---
+Cochl.Sense Cloud API on VM is a virtual machine (VM) solution that allows you to host Cochl.Sense Cloud API, an advanced sound recognition AI model capable of detecting specific sound events and analyzing environmental sounds. This guide provides step-by-step instructions on how to deploy, configure, manage, and delete Cochl.Sense Cloud API on VM via [Google Cloud Marketplace(GCP MP).](https://cloud.google.com/marketplace)
+
+The self-hosted VM image exposes **Sound Event Detection only** (legacy `tags[]` / `probability` shape via `POST /inference`). [Speech Analysis](/docs/cloud-api/speech-analysis) and [Audio Insights](/docs/cloud-api/audio-insights) are available exclusively on the managed Cloud API.
+
+## 1. How to deploy Cochl.Sense Cloud API on VM
+
+Follow these steps to deploy Cochl.Sense Cloud API on VM via Google Cloud Marketplace:
+
+1.  Sign in to your Google Cloud Platform (GCP) account and go to **Google Cloud Console.**
+2.  In the search bar, type **“Cochl.Sense Cloud API on VM”** and select it from the results.
+3.  Click **Launch** to start the deployment process.
+4.  Configure the VM settings by selecting the appropriate instance type:
+
+*   **Minimum requirements:**
+    
+    *   **Instance type:** `n1-standard-2` (2 vCPUs, 7.5GB RAM)
+    *   **GPU:** NVIDIA T4 or higher
+    *   **Storage:** At least 40 GB of disk space
+*   **Recommended requirements:**
+    
+    *   Instance type: `n1-standard-4` (4 CPUs, 15GB RAM)
+
+5.  Click **Deploy** and wait for the process to complete
+6.  Once deployed, check the **IP address** or **URL** of the VM to verify successful installation.
+
+## 2. Configuration for Cochl.Sense Cloud API on VM
+
+After deploying the VM, complete the configuration steps to start using the API.
+
+### Check deployed resources
+
+*   Navigate to **Compute Engine > VM Instances** in the Google Cloud Console.
+*   Ensure the VM is running properly by checking its status.
+*   It is recommended to wait **1-2 minutes** after initialization before making an API request.
+
+### Configurations
+
+*   If needed, configure network and firewall settings to restrict API access to specific IP addresses.
+*   Test API calls by:
+    *   Check out **server status:** `curl http://<VM-IP>/health`
+    *   Sending a sound analysis request: `curl -X POST http://<VM-IP>/inference -d '{"audio": "<base64_encoded_audio>"}' -H "Content-Type: application/json"`
+*   For the detailed API documentation, visit the official [Cochl.Sense Cloud API Guide.](/docs/cloud-api/getting-started)
+
+## 3. Billing management
+
+To monitor your usage and manage billing for Cochl.Sense Cloud API on VM:
+
+1.  Go to **Google Cloud Console > Billing.**
+2.  Click **Transactions** under **Payments** to view your usage details.
+3.  Download invoices in **CSV or PDF format** if needed.
+
+### Pricing policy
+
+*   Cochl.Sense Cloud API on VM is billed on a **monthly basis.**
+
+## 4. Deleting your deployment
+
+If you need to stop or delete your Cochl.Sense Cloud API on VM deployment:
+
+1.  Navigate to **Google Cloud Console > Compute Engine > VM Instances.**
+2.  Locate the **Cochl.Sense Cloud API on a VM** instance.
+3.  Click on the **instance name** to open its details.
+4.  Click **Delete** at the top of the page.
+
+**Important:** Deleting your deployment is irreversible, so ensure that you **back up all necessary data** before proceeding.
+
+## 5. Supports
+
+If you require assistance while using Cochl.Sense Cloud API on VM, you can contact us through the following channels:
+
+*   **Current Engine Version:** **v2.40.0d**
+*   **Email support:** [support@cochl.ai](mailto:support@cochl.ai)
+*   Official Documentation: [Cochl.Sense Cloud API Guide](/docs/cloud-api/getting-started)
+*   Supported Sound Categories: [Sound Tags List](/docs/cloud-api/sound-event-detection/sound-tags)
+*   Tutorial: [How to Deploy and Use Cochl.Sense Cloud API on GCP](https://github.com/cochlearai/csp-example-doc/tree/main/gcp)
+
+This guide ensures a smooth deployment and management experience for Cochl.Sense Cloud API on Google Cloud Marketplace VM.

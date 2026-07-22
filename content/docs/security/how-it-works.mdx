@@ -1,0 +1,42 @@
+---
+title: "How It Works"
+description: "From audio capture to cloud monitoring — a four-stage pipeline."
+---
+From audio capture to cloud monitoring — a four-stage pipeline.
+
+## Detection pipeline
+
+1
+
+Camera captures audio
+
+Existing cameras stream audio through NX Witness VMS — no new cameras required
+
+2
+
+On-site AI inference
+
+Cochl-certified hardware runs the AI model locally — raw audio never leaves the site
+
+3
+
+Event metadata sent to cloud
+
+Only metadata (sound type, timestamp, camera ID) is transmitted — no audio
+
+4
+
+Dashboard + alerts
+
+View real-time events and receive webhook / email notifications
+
+## System components
+
+| Component | Role |
+| --- | --- |
+| **VMS** | Existing video management environment — NX Witness currently supported. Additional VMS platforms will be supported in future updates. |
+| **Cochl Plugin** | Extracts audio streams from the VMS |
+| **Cochl Hardware** | Runs AI inference on-site (required for paid plans) |
+| **Cloud Dashboard** | Real-time event monitoring, history, and notifications |
+
+For the Trial tier, Cochl-certified inference hardware is not required. NX Witness VMS and the Cochl plugin must still be installed.

@@ -1,0 +1,339 @@
+---
+title: "Release Notes"
+description: "Current deep learning model: v2.40.0(Jun 01, 2026)"
+---
+_Current deep learning model:_ **v2.40.0**(Jun 01, 2026)
+
+## June 01, 2026
+
+The Python `cochl` library and Dashboard have been released with Integrated API `v1.0.0`, deployed alongside model `v2.40.0`. Alongside the existing environment sound recognition, the Cloud API now offers:
+
+  
+
+*   **[Speech Analysis](/docs/cloud-api/speech-analysis)**—Transcription (speech-to-text) plus registered speaker matching, renamed and expanded from the former Speaker Recognition.
+*   **[Audio Insights](/docs/cloud-api/audio-insights)**—context awareness for audio scenes and a comprehensive summary covering environment, conversation topics, and events.
+*   New Integration API endpoint `POST /api/v1/analyze_file` lets you combine Sound Event Detection, Speech Analysis, and Audio Insights in a single request. See [Audio Insights](/docs/cloud-api/audio-insights#2-run-audio-insights) for the OpenAPI link.
+*   Approximately **3% AP improvement** on Sound Event Detection with stronger robustness against background noise and overlapping voices.
+
+* * *
+
+## July 20, 2025
+
+The new model `v2.33.0` has been deployed.  
+Python `cochl` library has been released for Custom Sound.
+
+  
+
+*   added config.json for API configuration
+*   renamed feature: “Result Abbreviation” → “Result Summary”
+
+* * *
+
+## November 11, 2024
+
+Cochl Library `v1.0.0` has been released.
+
+  
+
+*   Easier Speaker Recognition (now [Speech Analysis](/docs/cloud-api/speech-analysis)) API integration
+*   Removed Stream Client
+
+* * *
+
+## June 10, 2024
+
+Python `cochl` library has been released for easier API integration.  
+The new model `v2.18.8` has been deployed.
+
+* * *
+
+## December 28, 2023
+
+Cochl.Sense Cloud API `v1.4.0` released
+
+  
+
+*   Implemented a “Default Hop size” feature enabling users to set the inference interval at either 0.5 seconds or 1 second.
+*   Introduced a new “Sensitivity Control” feature that allows users to adjust the recognition sensitivity for each tag.
+*   Updated sample codes now include a “Result Summary” feature for a simplified display.
+
+* * *
+
+## June 21, 2023
+
+Model version updated to `v2.15.8`
+
+  
+
+*   Model performances improved.
+*   Number of detectable sound tags increased to 103 sounds.
+*   `Others` tag probability changed to constant ‘0.0’.
+
+  
+
+See [Sound tags list](/docs/cloud-api/sound-event-detection/sound-tags) for more information
+
+* * *
+
+## September 28, 2022
+
+Model version updated to `v2.7.9`
+
+  
+
+The **‘siren’** tag has been modified and split into 2 tags:
+
+*   `Civil_defense_siren`
+*   `Emergency_vehicle_siren`
+
+  
+Other tags have been added.  
+
+See [Sound tags list](/docs/cloud-api/sound-event-detection/sound-tags) for more information.
+
+* * *
+
+## July 07, 2022
+
+Two new concepts have been implemented:
+
+*   `multi-tag`: multiple sounds can be recognized at the same time.
+*   `no service`: all the sounds can be inferenced regardless of their category: no need to specify a service anymore.
+
+**Breaking changes**
+
+Due to multi-tag concept, the **‘Read status’** request response format has been modified.
+
+* * *
+
+## March 15, 2022
+
+Two new parameters are available from client side when creating a session:
+
+*   `service`: set service to inference different events with same project / api key
+*   `metadata`: those metadata will later be available on analytics Dashboard.
+
+**Breaking changes**
+
+Events for each service have been refactored.
+
+* * *
+
+## Aug 20, 2021
+
+**Breaking changes**
+
+For better consistency, some event names have been renamed.
+
+*   ‘Glassbreak’ becomes **‘Glass\_break’**
+*   ‘Clap becomes’ **‘Double\_clap’**
+*   ‘Whistling’ becomes **‘Whistle’**
+*   ‘Burping’ becomes **‘Burp’**
+*   ‘Snoring’ becomes **‘Snore’**
+
+  
+
+Some event recognition have been removed.
+
+*   Whisper
+*   Keyboard\_or\_mouse
+
+  
+
+* * *
+
+## Apr 21, 2021
+
+*   Smart filtering is now always activated. Changing smart-filtering option on client will not have any effect.
+
+* * *
+
+## Nov 27, 2020
+
+### Pricing
+
+Decreasing API price from $0.048 /min to $0.012 /min
+
+### Company
+
+*   Our new domain has change from cochlear.ai to cochl.ai
+*   A brand new site accessible at [https://www.cochl.ai](https://www.cochl.ai)
+
+### Model
+
+#### Addition of Human Status service:
+
+*   Baby\_cry
+*   Dining\_clink
+*   Dog\_bark
+*   Electric\_shaver\_or\_toothbrush
+*   Keyboard\_or\_mouse
+*   Knock
+*   Toilet\_flush
+*   Water\_tap\_or\_liquid\_fill
+*   Others
+
+* * *
+
+## Sep 07, 2020
+
+### Client
+
+#### Add smart filtering capability to all clients _v1.1.0_.
+
+**Breaking changes**
+
+**Java** and **Dart** dependency name have change.
+
+For java, now use
+
+```
+dependencies {
+    implementation 'ai.cochlear.sense:cochl-sense:1.1.0'
+}
+```
+
+For dart, now use
+
+```
+dependencies:
+  cochl_sense: ^1.1.0
+```
+
+* * *
+
+## Jul 21, 2020
+
+### Model
+
+#### Addition of Human status service:
+
+*   Burping
+*   Cough
+*   Fart
+*   Hiccup
+*   Laughter
+*   Sigh
+*   Sneeze
+*   Snoring
+*   Yawn
+*   Others
+
+* * *
+
+## May 15, 2020
+
+**Official v1 release**
+
+### Model
+
+*   Better accuracy
+*   Faster result
+*   Specialized model to 2 different services :
+    *   Emergency Detection: Fire/smoke alarm, glassbreak, scream, and siren
+    *   Human Interaction: Clap, finger snap, knock, whisper, and whistling
+
+### Client
+
+*   Dart client
+*   Clients use SSL to send encrypted audio data
+
+**Breaking changes**
+
+*   Change client API
+*   Split supported sounds between different services
+*   Stop support of beta API key
+*   All services and API keys from beta version are not supported anymore
+*   All beta clients needs to be updated to latest version
+
+### Dashboard
+
+*   Creation of Dashboard: [https://dashboard.cochl.ai](https://dashboard.cochl.ai)
+*   Data usage visualization
+*   Usage of multiple API Key using different projects for better control
+
+* * *
+
+## Jan 22, 2020
+
+Release of beta v2.1 : number of supported sounds increased to 34 classes.
+
+### Model
+
+#### Added (14 classes)
+
+*   Bicycle\_bell
+*   Birds
+*   Burping
+*   Cat\_meow
+*   Clap
+*   Crowd\_applause
+*   Crowd\_scream
+*   Explosion
+*   Finger\_snap
+*   Keyboard\_mouse
+*   Mosquito
+*   Sigh
+*   Whisper
+*   Wind\_noise
+
+#### Changed (3 classes)
+
+*   Applause → Crowd\_applause
+*   Gunshot\_explosion → Gunshot
+*   Scream\_shout → Scream
+
+#### Deleted (1 class):
+
+*   Baby\_laughter
+
+* * *
+
+## Jul 03, 2019
+
+### Client
+
+*   Python: Fix time frame bug in streaming function.
+
+* * *
+
+## Jun 05, 2019
+
+Cochl.Sense beta v2 is now available.
+
+### Model
+
+#### Acoustic event API
+
+*   Removed the subtask option.
+*   Available sound events are increased to 22 (v-1.0: 7 events)
+*   Provides API with a new serving system which is more scalable.
+
+#### Music API, Speech API
+
+*   Paused temporarily and will be back in Q3 2019 with improved performance.
+
+### Client
+
+*   Protobuf messages changed
+*   gRPC service changed
+
+* * *
+
+## Nov 09, 2018
+
+_Cochl.Sense_ beta v1 is now available in Beta release, which is the first general purpose audio cognition API. The API is designed to empower developers and corporates with Machine Listening AI. During Beta period, it is free to use within the daily quota of 700 calls (for file inputs) and 10 minutes (for streaming).
+
+### Model
+
+*   Speech and music activity detection
+*   Age and gender detection
+*   Additional sound event class: glassbreak
+*   Improved performance
+
+### Client
+
+*   Improved latency
+*   Streaming input support
+*   Example client codes of other languages (Java, Node.js)
+*   Additional functionalities

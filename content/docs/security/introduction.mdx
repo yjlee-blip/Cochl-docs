@@ -1,0 +1,33 @@
+---
+title: "Cochl Security"
+description: "AI-powered sound event detection for video surveillance environments."
+---
+AI-powered sound event detection for video surveillance environments.
+
+## What is Cochl Security?
+
+Cochl Security is an AI-powered sound event detection system that enhances video surveillance by detecting critical acoustic events in real time. It analyzes audio streams from cameras connected to your VMS and surfaces detected events through a cloud dashboard.
+
+Currently supports **NX Witness (Network Optix)** VMS. Additional VMS platforms will be supported in future updates.
+
+Access the dashboard at [https://security.cochl.ai](https://security.cochl.ai)
+
+Cochl Security operates **alongside** existing VMS infrastructure — it extends, not replaces, standard video surveillance.
+
+## What does it detect?
+
+Cochl Security is optimized for **emergency and security-critical sound events**. Key supported categories include:
+
+| Category | Sound Events |
+| --- | --- |
+| **Glass Break** | Glass break, Glass break (impact) |
+| **Gunshot** | Gunshot, Gunshot (automatic), Gunshot (single) |
+| **Scream** | Female scream, Male scream, Scream |
+| **Siren / Alarm** | Civil defense siren, Emergency vehicle siren, Siren |
+| **Yell / Crowd** | Crowd yell, Female yell, Male yell, Yell |
+
+Additional sound categories are available. Detection scope can be customized per deployment.
+
+## Privacy-first architecture
+
+Raw audio is **never stored or transmitted**. Only event metadata (sound type, timestamp, camera ID) is sent to the cloud dashboard.

@@ -1,0 +1,80 @@
+---
+title: "Getting Started"
+description: "Cochl.Sense Edge SDK is a powerful toolkit that lets you seamlessly integrate machine listening into your applications and run it directly on edge…"
+---
+**Cochl.Sense Edge SDK** is a powerful toolkit that lets you seamlessly integrate machine listening into your applications and run it directly on edge devices. It enables low-latency, offline sound recognition without relying on the cloud, making it ideal for scenarios where real-time response and data privacy are critical.
+
+## 1. Prepare Your Environment
+
+Prepare your environment for the Cochl.Sense Edge SDK.
+
+### (1) List of supported platforms
+
+*   Linux Desktop (Ubuntu 18.04-24.04)
+    
+*   Single-board Computers:
+    
+    *   NVIDIA Jetson AGX Xavier
+    *   NVIDIA Jetson Nano
+    *   NVIDIA Jetson Orin Nano
+    *   NVIDIA Jetson TX2
+    *   Raspberry Pi (3+, 4 Model B)
+    *   Google Coral Dev board
+*   Android Oreo or Newer
+    
+*   Others (Please contact [support@cochl.ai](mailto:support@cochl.ai))
+    
+
+If the platform you want to use is not listed above, please feel free to contact us at [support@cochl.ai](mailto:support@cochl.ai). We provide technical support to help you use our SDK on other platforms.
+
+### (2) Single-board computer setup
+
+<Tabs items={["1::NVIDIA Jetson Series","2::Google Coral","3::Raspberry Pi"]}>
+
+<Tab value={"1::NVIDIA Jetson Series"}>
+
+Set up the board with the NVIDIA’s official [Getting Started](https://developer.nvidia.com/embedded/learn/getting-started-jetson) guide.
+
+</Tab>
+<Tab value={"2::Google Coral"}>
+
+Set up the board with the Google’s official [Get Started](https://coral.ai/docs/dev-board/get-started) guide.
+
+</Tab>
+<Tab value={"3::Raspberry Pi"}>
+
+(1) Download OS image
+
+*   Download Ubuntu 20.04 64-bit at [Ubuntu Downloads](https://ubuntu.com/download/raspberry-pi)
+*   (Raspbian can be another option, but make sure to use 32-bit version SDK)
+
+(2) Flash OS image
+
+*   Download and install [balenaEtcher](https://www.balena.io/etcher/)
+*   Using Balena Etcher, flash image file into to microSD
+
+(3) Run Raspberry Pi
+
+*   Mount the microSD into the Raspberry Pi
+*   Connect power, HDMI, and other peripherals (mouse, keyboard, ethernet …)
+*   Network settings
+
+</Tab>
+
+</Tabs>
+
+## 2. Continue setup
+
+Once your environment is ready, three steps remain:
+
+1.  **Install the SDK** — download the archive from [Resources](/docs/edge-sdk/resources) for your target platform.
+2.  **Get your project key** — create a project on the Dashboard and copy the key. See [Dashboard Quick Start](/docs/home/dashboard-quickstart) for the walkthrough.
+3.  **Launch the examples** — follow the runnable samples for your language at [Samples](/docs/edge-sdk/samples).
+
+## 3. What’s next
+
+*   **[Sound Event Detection](/docs/edge-sdk/sound-event-detection)**—feature overview, tag selection, file vs. stream modes, and limitations
+*   **[Sound Tags](/docs/edge-sdk/sound-event-detection/sound-tags)**—the catalog of detectable tags you pick from when creating a project
+*   **[Custom Sound: Sound Events](/docs/edge-sdk/sound-event-detection/custom-sound)**—train your own sound tag when the built-in catalog isn’t enough
+*   **[Advanced Configurations](/docs/edge-sdk/advanced-configurations)**—sensitivity, result summary, audio preprocessor, and the full `config.json` schema
+*   **[Benchmark](/docs/edge-sdk/benchmark)**—latency and accuracy numbers per platform

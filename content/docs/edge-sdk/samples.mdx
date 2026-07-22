@@ -1,0 +1,1060 @@
+---
+title: "Samples"
+description: "Two samples are provided in the Cochl.Sense Edge SDK: sense-file and sense-stream."
+---
+Two samples are provided in the Cochl.Sense Edge SDK: `sense-file` and `sense-stream`.
+
+*   `sense-file` performs a prediction on an audio file (wav or mp3).
+*   `sense-stream` performs a prediction on an audio buffer.
+
+Make sure your environment is set up first — see [Getting Started](/docs/edge-sdk/getting-started). On Linux hosts, refresh the package list and install the build tools that every platform tab below needs:
+
+```bash
+sudo apt update
+sudo apt install -y git unzip
+```
+
+Then pick the platform you’re targeting.
+
+<Tabs items={["1::Python","2::C++","3::Android"]}>
+
+<Tab value={"1::Python"}>
+
+### 1. Python requirements
+
+Since the Cochl.Sense Edge SDK for Python v1.6.0, **Python 3.6–3.12** is supported. Earlier versions support **Python 3.6–3.8** only. If you wish to use a different version, please contact [support@cochl.ai](mailto:support@cochl.ai).
+
+In addition to the shared `git unzip` step above, install `curl` and the audio-IO packages the Python sample needs:
+
+```bash
+sudo apt install -y curl virtualenv portaudio19-dev python3-pyaudio python3-venv
+```
+
+If Python was installed via your OS package manager, install the matching header package (`pythonX.Y-dev`). For example, Python 3.8 → `python3.8-dev`. If you built Python from source, the headers are already present.
+
+```bash
+ver="$(
+  python3 -c 'import sys;
+print(f"{sys.version_info.major}.{sys.version_info.minor}")'
+)"
+sudo apt-get install -y --no-install-recommends "python${ver}-dev"
+```
+
+#### Create a new virtual environment
+
+Select the desired Python interpreter and create a `./venv` directory to contain the environment:
+
+```bash
+python3 -m venv ./venv
+```
+
+*   **NOTE**: For older Python versions (e.g., 3.6, 3.7), the venv module is provided in version-specific packages (such as `python3.6-venv`, `python3.7-venv`). Installing the generic `python3-venv` package alone will not work for these versions. **You must install the corresponding version-specific package to use `python3 -m venv`**.
+    
+*   **NOTE**: If you want to specify a Python version explicitly, run the following command (replace `python3.10` with the version you want):
+    
+    ```bash
+    python3.10 -m venv ./venv
+    ```
+    
+
+Activate the virtual environment using the appropriate shell-specific command:
+
+```bash
+source ./venv/bin/activate
+```
+
+When the virtual environment is active, your shell prompt will be prefixed with `(venv)`, and any packages you install will be isolated from the host system’s Python installation. You can verify which Python interpreter is being used by running:
+
+```bash
+# (venv)
+python --version
+```
+
+Example output:
+
+```text
+Python 3.10.9
+```
+
+The bundled version of pip in a new virtual environment may be outdated, so upgrade it according to your Python version (as checked above):
+
+   
+
+*   1::Python 3.9+
+*   2::Python 3.8
+*   3::Python 3.7
+*   4::Python 3.6
+
+```bash
+# (venv)
+pip3 install --upgrade pip
+```
+
+```bash
+# (venv)
+curl https://bootstrap.pypa.io/pip/3.8/get-pip.py -o get-pip.py
+python3 get-pip.py
+pip3 install --upgrade pip
+```
+
+```bash
+# (venv)
+curl https://bootstrap.pypa.io/pip/3.7/get-pip.py -o get-pip.py
+python3 get-pip.py
+pip3 install --upgrade pip
+```
+
+```bash
+# (venv)
+curl https://bootstrap.pypa.io/pip/3.6/get-pip.py -o get-pip.py
+python3 get-pip.py
+pip3 install --upgrade pip
+```
+
+### 2. Prepare the sample
+
+#### (1) Clone the tutorial
+
+```bash
+git clone https://github.com/cochlearai/sense-sdk-python-tutorials.git
+```
+
+#### (2) Unzip the SDK into the tutorial directory
+
+```bash
+unzip path/to/sdk/sense-<version>-<python_version>-<platform>.zip \
+  -d path/to/sample/sense-sdk-python-tutorials/
+```
+
+After unzipping the zip file, your sample directory should now look like this.
+
+```bash
+sense-sdk-python-tutorials
+    |-- README.md
+    |-- audio_file_example.py   # sense-file sample
+    |-- audio_files             # audio samples
+    |   |-- babycry.wav
+    |   |-- ...
+    |   `-- whistle.wav
+    |-- audio_stream_example.py # sense-stream sample
+    |-- config.json             # configuration file used to initialize the SDK
+    |-- requirements.txt
+    `-- sense                   # Cochl.Sense Edge SDK
+        |-- license
+        `-- sense-1.6-<version>-<python_version>-<platform>.whl
+```
+
+#### (3) Install the SDK
+
+Run the following command to install the SDK while keeping the virtual environment `(venv)` active.
+
+First, install all dependencies using `pip install` command:
+
+```bash
+# (venv)
+ver="$(
+  python3 -c 'import sys;
+print(f"{sys.version_info.major}.{sys.version_info.minor}")'
+)"
+if [[ "$ver" == "3.6" ]]; then
+    numpy_ver="1.19.4"
+elif [[ "$ver" == "3.7" || "$ver" == "3.8" ]]; then
+    numpy_ver="1.21.4"
+elif [[ "$ver" == "3.9" || "$ver" == "3.10" || "$ver" == "3.11" || "$ver" == "3.12" ]]; then
+    numpy_ver="1.26.4"
+fi
+pip3 install numpy=="$numpy_ver" && pip3 install pyaudio
+```
+
+Then, navigate to the tutorial directory and run `pip install` command to install the SDK:
+
+```bash
+# (venv)
+cd path/to/sample/sense-sdk-python-tutorials/
+pip3 install sense/sense-1.6-<version>-<python_version>-<platform>.whl
+```
+
+#### (4) Install a license manager
+
+**As of SDK v1.4.0 and later, you must install the license manager**. It manages SDK license verification and requires an internet connection.
+
+##### Install the license manager
+
+```bash
+cd sense/license
+sudo ./dinst
+```
+
+##### Uninstall the license manager
+
+```bash
+cd sense/license
+sudo ./dunst
+```
+
+### 3. How to use Cochl.Sense Edge SDK for Python
+
+#### (1) Initialization
+
+You can initialize the Cochl.Sense Edge SDK by calling `SenseInit(project_key, config_file_path)` from the `sense` package. Initialization may take some time if the process involves downloading a model. The SDK will download a model if none is found on the device or if a newer version is available.
+
+```python
+from sense import (
+    SenseInit,
+)
+
+project_key = "Your project key"  # Replace with your own key
+config_file_path = "./config.json"
+if SenseInit(project_key, config_file_path) < 0:
+    sys.exit(-1)
+```
+
+#### (2) Configuration
+
+This file stores the Cochl.Sense Edge SDK’s configuration settings. Passing its path to the initialization method allows the app to read the file and apply the settings to the Sense object.
+
+```json
+{
+  "device_name": "MySenseDevice",
+  "model_delegate": 0,
+  "num_threads": -1,
+  "log_level": 0,
+  "app_path": "~",
+  "metrics": {
+    "retention_period": 7,
+    "free_disk_space": 500,
+    "push_period": 60
+  },
+  "sensitivity_control": {
+    "default_sensitivity": 0,
+    "tag_sensitivity": {
+    }
+  },
+  "result_summary": {
+    "enable": false,
+    "default_interval_margin": 0,
+    "tag_interval_margin": {
+    }
+  },
+  "audio_preprocessor": {
+    "audio_activity_detection": {
+      "enable": false,
+      "history_count": 600,
+      "sensitivity": 0
+    },
+    "automatic_gain_control": {
+      "enable": false
+    }
+  }
+}
+```
+
+### Top-level fields
+
+| Field | Default | Description |
+| --- | --- | --- |
+| `device_name` | required | Name shown for this device on the dashboard. Only one `device_name` per device. Change it later via the **Edge SDK** tab of your [project page](https://dashboard.cochl.ai/project/). |
+| `model_delegate` | `0` | TensorFlow Lite delegator. `0` default, `1` Hexagon, `2` NNAPI, `3` GPU. |
+| `num_threads` | `-1` | Threads available to the SDK. `≤ 0` uses all cores. |
+| `log_level` | `0` | Log verbosity. `0` Debug, `1` Information, `2` Warning, `3` Error. |
+| `app_path` | `~` | Where the SDK stores resources generated during execution (downloaded models, metrics buffer, etc.). |
+| `metrics` | object | Local metrics buffer + push behavior. See below. |
+| `sensitivity_control` | object | Detection sensitivity, globally and per tag. See [Advanced Configurations](/docs/edge-sdk/advanced-configurations). |
+| `result_summary` | object | Merge consecutive same-tag windows into single events. See [Advanced Configurations](/docs/edge-sdk/advanced-configurations). |
+| `audio_preprocessor` | object | Audio Activity Detection + Automatic Gain Control. See [Advanced Configurations](/docs/edge-sdk/advanced-configurations). |
+
+### `metrics` sub-fields
+
+Each inference window produces a metric, which is buffered locally and pushed to the dashboard on a schedule.
+
+| Field | Default | Unit | Description |
+| --- | --- | --- | --- |
+| `retention_period` | `7` | days | How long the SDK keeps unsent metrics locally. Capped at 31 days. `0` disables local saving. |
+| `free_disk_space` | `500` | MB | When free disk drops below this threshold, the SDK stops storing metrics locally (effectively `retention_period: 0`). Capped at 1,000,000 MB. |
+| `push_period` | `60` | seconds | How often metrics are pushed to the dashboard. Capped at 3,600 s. |
+
+#### (3) Audio input and predict
+
+The Cochl.Sense Edge SDK receives audio data and returns detected sound tags in JSON format. You can provide either a file path (as a string) or an array of audio data.
+
+##### NOTE
+
+_The audio data must have a sample rate of at least 22,050 Hz. Lower sample rates are not supported. When the sample rate is higher than 22,050 Hz, the SDK automatically downsamples the audio internally._
+
+ 
+
+*   sense-file
+*   sense-stream
+
+Retrieve the file path in string format and pass it to the SDK.
+
+**LIMITATION: The audio file length must be at least equal to the model’s window size.**
+
+```python
+import sys
+from sense import (
+    AudioSourceFile,
+)
+
+file_path = "audio_file.wav"
+audio_source_file = AudioSourceFile()
+
+if audio_source_file.Load(file_path) < 0:
+    sys.exit(1)
+
+result = audio_source_file.Predict()
+```
+
+Pass the audio data array and its sample rate to the SDK.
+
+In this tutorial, `PyAudio` is used to capture audio from the device, but it can be replaced with another implementation if needed.
+
+```python
+import pyaudio
+from sense import (
+    AudioSourceStream,
+)
+
+SAMPLE_RATE = 22050
+
+audio_source_stream = AudioSourceStream()
+audio_interface = pyaudio.PyAudio()
+audio_stream = audio_interface.open(
+    format=pyaudio.paFloat32,
+    channels=1,
+    rate=SAMPLE_RATE,
+    input=True,
+    frames_per_buffer=int(
+        SAMPLE_RATE * audio_source_stream.get_hop_size()
+    ),
+)
+
+# If you have recorded audio to a 'buffer', pass it to the predict method.
+# For details on composing a buffer from audio data, refer to the tutorial.
+audio_source_stream.Predict(buffer, SAMPLE_RATE)
+```
+
+#### (4) Result format
+
+```markdown
+{
+  "tags": [
+    {
+      "name"        : <string>, The name of the predicted tag (e.g. "Siren")
+      "probability" : <float>,  Probability of the predicted tag
+    }
+  ],
+  "start_time"      : <float>,  Starting time of this prediction window
+  "end_time"        : <float>,  Ending time of this prediction window
+  "prediction_time" : <double>, The amount of time it took to process this window
+                                (in milliseconds)
+}
+```
+
+#### (5) Terminate
+
+The Cochl.Sense Edge SDK allocates several resources during initialization. To ensure these resources are released safely, call the `SenseTerminate()` method.
+
+```python
+from sense import (
+    SenseTerminate,
+)
+
+SenseTerminate()
+```
+
+### 4. How to run
+
+ 
+
+*   sense-file
+*   sense-stream
+
+With the virtual environment `(venv)` active, run the following command to execute `audio_file_example.py`:
+
+```bash
+# (venv)
+python3 audio_file_example.py <PATH_TO_AUDIO_FILE>
+```
+
+The repository also includes audio files that you can use.
+
+```bash
+# (venv)
+python3 audio_file_example.py audio_files/babycry.wav
+```
+
+With the virtual environment `(venv)` active, run the following command to execute `audio_stream_example.py`:
+
+```bash
+# (venv)
+python3 audio_stream_example.py
+```
+
+**Note: Before running `audio_stream_example.py`, ensure the input device is properly connected.**
+
+### 5. Troubleshooting
+
+If you encounter an error while running the SDK, try resetting the SDK configuration by running the following command, and then run it again:
+
+```shell
+sudo rm -rf ~/.sense-sdk
+```
+
+#### (1) NumPy GLIBC Error
+
+In some environments, you may see an error when importing NumPy, such as:
+
+```text
+ImportError: /lib/arm-linux-gnueabihf/libc.so.6: version `GLIBC_2.34' not found ...
+```
+
+This occurs because the prebuilt NumPy wheel requires a newer version of GLIBC than your system has. To fix this, reinstall NumPy with a specific version suitable for your environment by building from source instead of using the prebuilt binary:
+
+```shell
+pip install numpy==1.26.4 --no-binary numpy
+```
+
+This command compiles NumPy from source, making it compatible with your system libraries.
+
+</Tab>
+<Tab value={"2::C++"}>
+
+### 1. C++ requirements
+
+In addition to the shared `git unzip` step above, the C++ sample uses PulseAudio for stream input:
+
+```bash
+sudo apt install -y libpulse-dev pulseaudio pulseaudio-utils
+```
+
+### 2. Prepare the sample
+
+#### (1) Clone the tutorial
+
+```bash
+git clone https://github.com/cochlearai/sense-sdk-cpp-tutorials.git
+```
+
+#### (2) Unzip the SDK into the tutorial directory
+
+```bash
+unzip path/to/sdk/sense-sdk-<version>-cpp.zip \
+  -d path/to/sample/sense-sdk-cpp-tutorials/
+```
+
+After unzipping the zip file, your sample directory should now look like this.
+
+```bash
+sense-sdk-cpp-tutorials
+    |-- README.md
+    |-- audio_files          # audio samples
+    |   |-- babycry.wav
+    |   |-- ...
+    |   `-- whistle.wav
+    |-- config.json          # configuration file used to initialize the SDK
+    |-- examples
+    |   |-- sense-file.cc    # sense-file sample
+    |   `-- sense-stream.cc  # sense-stream sample
+    `-- sense                # Cochl.Sense Edge SDK
+        |-- include
+        |-- lib
+        `-- license
+```
+
+#### (3) Install a license manager
+
+**As of SDK v1.4.0 and later, you must install the license manager**. It manages SDK license verification and requires an internet connection.
+
+##### Install the license manager
+
+```bash
+cd sense/license
+sudo ./dinst
+```
+
+##### Uninstall the license manager
+
+```bash
+cd sense/license
+sudo ./dunst
+```
+
+### 3. How to use Cochl.Sense Edge SDK for C++
+
+#### (1) Initialization
+
+You can initialize the Cochl.Sense Edge SDK by calling `sense::Init(project_key, config_file_path)` from the `sense/sense.hpp` header. Initialization may take some time if the process involves downloading a model. The SDK will download a model if none is found on the device or if a newer version is available.
+
+```cpp
+#include "sense/sense.hpp"
+
+std::string project_key = "Your project key";  // Replace with your own key
+std::string config_file_path = "./config.json";
+
+if (sense::Init(project_key, config_file_path) < 0) return -1;
+```
+
+#### (2) Configuration
+
+This file stores the Cochl.Sense Edge SDK’s configuration settings. Passing its path to the initialization method allows the app to read the file and apply the settings to the Sense object.
+
+```json
+{
+  "device_name": "MySenseDevice",
+  "model_delegate": 0,
+  "num_threads": -1,
+  "log_level": 0,
+  "app_path": "~",
+  "metrics": {
+    "retention_period": 7,
+    "free_disk_space": 500,
+    "push_period": 60
+  },
+  "sensitivity_control": {
+    "default_sensitivity": 0,
+    "tag_sensitivity": {
+    }
+  },
+  "result_summary": {
+    "enable": false,
+    "default_interval_margin": 0,
+    "tag_interval_margin": {
+    }
+  },
+  "audio_preprocessor": {
+    "audio_activity_detection": {
+      "enable": false,
+      "history_count": 600,
+      "sensitivity": 0
+    },
+    "automatic_gain_control": {
+      "enable": false
+    }
+  }
+}
+```
+
+### Top-level fields
+
+| Field | Default | Description |
+| --- | --- | --- |
+| `device_name` | required | Name shown for this device on the dashboard. Only one `device_name` per device. Change it later via the **Edge SDK** tab of your [project page](https://dashboard.cochl.ai/project/). |
+| `model_delegate` | `0` | TensorFlow Lite delegator. `0` default, `1` Hexagon, `2` NNAPI, `3` GPU. |
+| `num_threads` | `-1` | Threads available to the SDK. `≤ 0` uses all cores. |
+| `log_level` | `0` | Log verbosity. `0` Debug, `1` Information, `2` Warning, `3` Error. |
+| `app_path` | `~` | Where the SDK stores resources generated during execution (downloaded models, metrics buffer, etc.). |
+| `metrics` | object | Local metrics buffer + push behavior. See below. |
+| `sensitivity_control` | object | Detection sensitivity, globally and per tag. See [Advanced Configurations](/docs/edge-sdk/advanced-configurations). |
+| `result_summary` | object | Merge consecutive same-tag windows into single events. See [Advanced Configurations](/docs/edge-sdk/advanced-configurations). |
+| `audio_preprocessor` | object | Audio Activity Detection + Automatic Gain Control. See [Advanced Configurations](/docs/edge-sdk/advanced-configurations). |
+
+### `metrics` sub-fields
+
+Each inference window produces a metric, which is buffered locally and pushed to the dashboard on a schedule.
+
+| Field | Default | Unit | Description |
+| --- | --- | --- | --- |
+| `retention_period` | `7` | days | How long the SDK keeps unsent metrics locally. Capped at 31 days. `0` disables local saving. |
+| `free_disk_space` | `500` | MB | When free disk drops below this threshold, the SDK stops storing metrics locally (effectively `retention_period: 0`). Capped at 1,000,000 MB. |
+| `push_period` | `60` | seconds | How often metrics are pushed to the dashboard. Capped at 3,600 s. |
+
+#### (3) Audio input and predict
+
+The Cochl.Sense Edge SDK receives audio data and returns detected sound tags in JSON format. You can provide either a file path (as a string) or an array of audio data.
+
+##### NOTE
+
+_The audio data must have a sample rate of at least 22,050 Hz. Lower sample rates are not supported. When the sample rate is higher than 22,050 Hz, the SDK automatically downsamples the audio internally._
+
+ 
+
+*   sense-file
+*   sense-stream
+
+Retrieve the file path in string format and pass it to the SDK.
+
+**LIMITATION: The audio file length must be at least equal to the model’s window size.**
+
+```cpp
+#include "sense/audio_source_file.hpp"
+#include "sense/sense.hpp"
+
+std::string file_path = "audio_file.wav";
+
+sense::AudioSourceFile audio_source_file;
+if (audio_source_file.Load(file_path) < 0) return false;
+
+sense::Result result = audio_source_file.Predict();
+```
+
+Pass the audio data array and its sample rate to the SDK.
+
+In this tutorial, `PulseAudio` is used to capture audio from the device, but it can be replaced with another implementation if needed.
+
+```cpp
+#include <pulse/error.h>
+#include <pulse/gccmacro.h>
+#include <pulse/simple.h>
+
+#include "sense/audio_source_stream.hpp"
+#include "sense/sense.hpp"
+
+#define SAMPLE_RATE (22050)
+
+static pa_sample_spec ss;
+ss.format = PA_SAMPLE_S16LE;  // May vary based on your system (int16_t)
+ss.rate = SAMPLE_RATE;
+ss.channels = 1;
+pa_simple* s = nullptr;
+int error = 0;
+if (!(s = pa_simple_new(nullptr,
+                        "sense-stream",
+                        PA_STREAM_RECORD,
+                        nullptr,
+                        "record",
+                        &ss,
+                        nullptr,
+                        nullptr,
+                        &error))) {
+  fprintf(stderr,
+          __FILE__ ": pa_simple_new() failed: %s\n",
+          pa_strerror(error));
+  return false;
+}
+
+sense::AudioSourceStream audio_source_stream;
+
+// If you have recorded audio to a 'buffer', pass it to the predict method.
+// For details on composing a buffer from audio data, refer to the tutorial.
+sense::FrameResult frame_result =
+    audio_source_stream.Predict(buffer, SAMPLE_RATE);
+```
+
+#### (4) Result format
+
+```markdown
+{
+  "tags": [
+    {
+      "name"        : <string>, The name of the predicted tag (e.g. "Siren")
+      "probability" : <float>,  Probability of the predicted tag
+    }
+  ],
+  "start_time"      : <float>,  Starting time of this prediction window
+  "end_time"        : <float>,  Ending time of this prediction window
+  "prediction_time" : <double>, The amount of time it took to process this window
+                                (in milliseconds)
+}
+```
+
+#### (5) Terminate
+
+The Cochl.Sense Edge SDK allocates several resources during initialization. To ensure these resources are released safely, call the `sense::Terminate()` method.
+
+```cpp
+#include "sense/sense.hpp"
+
+sense::Terminate();
+```
+
+### 4. How to build and run
+
+ 
+
+*   sense-file
+*   sense-stream
+
+To build `sense-file.cc`, run the following command.
+
+```bash
+g++ examples/sense-file.cc \
+  -o sense-file \
+  -I./sense/include/ \
+  -L./sense/lib -lsense-core \
+  -Wl,-rpath -Wl,./sense/lib \
+  -lm -ldl -lstdc++ \
+  -fopenmp \
+  -std=c++14
+```
+
+If successful, it will create the `sense-file` binary, which you can execute with:
+
+```bash
+LD_LIBRARY_PATH=. ./sense-file <PATH_TO_AUDIO_FILE>
+```
+
+The repository also includes audio files that you can use.
+
+```bash
+LD_LIBRARY_PATH=. ./sense-file audio_files/babycry.wav
+```
+
+To build `sense-stream.cc`, run the following command.
+
+```bash
+g++ examples/sense-stream.cc \
+  -o sense-stream \
+  -I./sense/include/ \
+  -L./sense/lib -lsense-core \
+  -Wl,-rpath -Wl,./sense/lib \
+  -lm -ldl -lstdc++ -lpulse -lpulse-simple \
+  -fopenmp \
+  -std=c++14
+```
+
+If successful, it will create the `sense-stream` binary, which you can execute with:
+
+```bash
+LD_LIBRARY_PATH=. ./sense-stream
+```
+
+**Note: Before running `sense-stream`, ensure the input device is properly connected.**
+
+### 5. Troubleshooting
+
+If you encounter an error while running the SDK, try resetting the SDK configuration by running the following command, and then run it again:
+
+```shell
+sudo rm -rf ~/.sense-sdk
+```
+
+</Tab>
+<Tab value={"3::Android"}>
+
+### 1. Android requirements
+
+Cochl.Sense Edge SDK for Android supports Android API 26 (Version 8.0 ‘Oreo’), or later. Additionally, [Android Studio](https://developer.android.com/studio) is required. No extra apt packages beyond the shared `git unzip` step above.
+
+### 2. Prepare the sample
+
+#### (1) Clone the tutorial
+
+```bash
+git clone https://github.com/cochlearai/sense-sdk-android-tutorials.git
+```
+
+#### (2) Unzip the SDK into the tutorial directory
+
+*   `sense-file`
+    
+    ```bash
+    unzip path/to/sdk/sense-sdk-<version>-android.zip \
+      -d path/to/sample/sense-sdk-android-tutorials/sense-file/app
+    ```
+    
+    *   `sense-stream`
+    
+    ```bash
+    unzip path/to/sdk/sense-sdk-<version>-android.zip \
+      -d path/to/sample/sense-sdk-android-tutorials/sense-stream/app
+    ```
+    
+
+#### (3) Modify Gradle and Manifest files
+
+*   Add the following line to your dependencies block in `app/build.gradle`
+    
+    ```groovy
+    dependencies {
+        implementation files('libs/sense-sdk-v<version>.aar')  // Cochl.Sense Edge SDK
+    }
+    ```
+    
+    *   Add the following permission entries to your `app/src/main/AndroidManifest.xml` file
+    
+    ```xml
+    <uses-permission
+        android:name="android.permission.INTERNET" />
+    <uses-permission
+        android:name="android.permission.RECORD_AUDIO" />  <!-- for sense-stream -->
+    ```
+    
+
+### 3. How to use the Cochl.Sense Edge SDK for Android
+
+#### (1) Initialization
+
+You can initialize the Cochl.Sense Edge SDK by calling `init(projectKey, configFilePath)` from the `ai.cochl.sensesdk.Sense` package. Initialization may take some time if the process involves downloading a model. The SDK will download a model if none is found on the device or if a newer version is available.
+
+```java
+import ai.cochl.sensesdk.CochlException;
+import ai.cochl.sensesdk.Sense;
+
+private final String projectKey = "Your project key";  // Replace with your own key
+private final String configPath = "config/config.json";
+
+try {
+    sense = Sense.getInstance();
+    File configFile = new File(this.getExternalFilesDir(null), configPath);
+    sense.init(projectKey, configFile.getAbsolutePath());
+} catch (CochlException e) {
+    // Init has failed.
+}
+```
+
+#### (2) Configuration
+
+This file stores the Cochl.Sense Edge SDK’s configuration settings. Passing its path to the initialization method allows the app to read the file and apply the settings to the Sense object.
+
+```json
+{
+  "device_name": "MySenseDevice",
+  "model_delegate": 0,
+  "num_threads": -1,
+  "log_level": 0,
+  "app_path": "~",
+  "metrics": {
+    "retention_period": 7,
+    "free_disk_space": 500,
+    "push_period": 60
+  },
+  "sensitivity_control": {
+    "default_sensitivity": 0,
+    "tag_sensitivity": {
+    }
+  },
+  "result_summary": {
+    "enable": false,
+    "default_interval_margin": 0,
+    "tag_interval_margin": {
+    }
+  },
+  "audio_preprocessor": {
+    "audio_activity_detection": {
+      "enable": false,
+      "history_count": 600,
+      "sensitivity": 0
+    },
+    "automatic_gain_control": {
+      "enable": false
+    }
+  }
+}
+```
+
+### Top-level fields
+
+| Field | Default | Description |
+| --- | --- | --- |
+| `device_name` | required | Name shown for this device on the dashboard. Only one `device_name` per device. Change it later via the **Edge SDK** tab of your [project page](https://dashboard.cochl.ai/project/). |
+| `model_delegate` | `0` | TensorFlow Lite delegator. `0` default, `1` Hexagon, `2` NNAPI, `3` GPU. |
+| `num_threads` | `-1` | Threads available to the SDK. `≤ 0` uses all cores. |
+| `log_level` | `0` | Log verbosity. `0` Debug, `1` Information, `2` Warning, `3` Error. |
+| `app_path` | `~` | Where the SDK stores resources generated during execution (downloaded models, metrics buffer, etc.). |
+| `metrics` | object | Local metrics buffer + push behavior. See below. |
+| `sensitivity_control` | object | Detection sensitivity, globally and per tag. See [Advanced Configurations](/docs/edge-sdk/advanced-configurations). |
+| `result_summary` | object | Merge consecutive same-tag windows into single events. See [Advanced Configurations](/docs/edge-sdk/advanced-configurations). |
+| `audio_preprocessor` | object | Audio Activity Detection + Automatic Gain Control. See [Advanced Configurations](/docs/edge-sdk/advanced-configurations). |
+
+### `metrics` sub-fields
+
+Each inference window produces a metric, which is buffered locally and pushed to the dashboard on a schedule.
+
+| Field | Default | Unit | Description |
+| --- | --- | --- | --- |
+| `retention_period` | `7` | days | How long the SDK keeps unsent metrics locally. Capped at 31 days. `0` disables local saving. |
+| `free_disk_space` | `500` | MB | When free disk drops below this threshold, the SDK stops storing metrics locally (effectively `retention_period: 0`). Capped at 1,000,000 MB. |
+| `push_period` | `60` | seconds | How often metrics are pushed to the dashboard. Capped at 3,600 s. |
+
+#### (3) Audio input and predict
+
+The Cochl.Sense Edge SDK receives audio data and returns detected sound tags in JSON format. You can provide either a file path (as a string) or an array of audio data.
+
+##### NOTE
+
+_The audio data must have a sample rate of at least 22,050 Hz. Lower sample rates are not supported. When the sample rate is higher than 22,050 Hz, the SDK automatically downsamples the audio internally._
+
+ 
+
+*   sense-file
+*   sense-stream
+
+Retrieve the file path in string format and pass it to the SDK.
+
+**LIMITATION: The audio file length must be at least equal to the model’s window size.**
+
+```java
+import java.io.File;
+
+import ai.cochl.sensesdk.CochlException;
+import ai.cochl.sensesdk.Sense;
+
+// Storage which contains the audio file
+File sdcard;
+if (android.os.Build.VERSION.SDK_INT < 29) {
+    sdcard = Environment.getExternalStorageDirectory();
+} else {  // android.os.Build.VERSION.SDK_INT >= 29
+    sdcard = this.getExternalFilesDir(null);
+}
+
+File file = new File(sdcard, "audio_file.wav");
+String filePath = file.getAbsolutePath();
+JSONObject result = Sense.getInstance().predict(filePath);
+```
+
+Pass the audio data array and its sample rate to the SDK.
+
+In this tutorial, `android.media.AudioRecord` is used to capture audio from the device, but it can be replaced with another implementation if needed.
+
+```java
+import android.media.AudioFormat;
+import android.media.AudioRecord;
+import android.media.MediaRecorder;
+
+import ai.cochl.sensesdk.CochlException;
+import ai.cochl.sensesdk.Sense;
+
+private final int AUDIO_SOURCE = MediaRecorder.AudioSource.UNPROCESSED;
+private final int SAMPLE_RATE = 22050;
+private final int CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_MONO;
+// Supported audio formats: PCM_16BIT, PCM_FLOAT;
+private final int AUDIO_FORMAT = AudioFormat.ENCODING_PCM_FLOAT;
+private final int RECORD_BUF_SIZE = AudioRecord.getMinBufferSize(SAMPLE_RATE,
+                                                                 CHANNEL_CONFIG,
+                                                                 AUDIO_FORMAT);
+
+AudioRecord recorder = new AudioRecord(AUDIO_SOURCE,
+                                       SAMPLE_RATE,
+                                       CHANNEL_CONFIG,
+                                       AUDIO_FORMAT,
+                                       RECORD_BUF_SIZE);
+recorder.startRecording();
+
+// If you have recorded audio to a 'buffer', pass it to the predict method.
+// For details on composing a buffer from audio data, refer to the tutorial.
+JSONObject frameResult = Sense.getInstance().predict(buffer, SAMPLE_RATE);
+```
+
+#### (4) Result format
+
+```markdown
+{
+  "tags": [
+    {
+      "name"        : <string>, The name of the predicted tag (e.g. "Siren")
+      "probability" : <float>,  Probability of the predicted tag
+    }
+  ],
+  "start_time"      : <float>,  Starting time of this prediction window
+  "end_time"        : <float>,  Ending time of this prediction window
+  "prediction_time" : <double>, The amount of time it took to process this window
+                                (in milliseconds)
+}
+```
+
+#### (5) Terminate
+
+The Cochl.Sense Edge SDK allocates several resources during initialization. To ensure these resources are released safely, call the `terminate()` method.
+
+```java
+import ai.cochl.sensesdk.Sense;
+
+Sense.getInstance().terminate();
+```
+
+### 4. Reference
+
+#### Sense
+
+```markdown
+java.lang.Object
+    ai.cochl.sensesdk.Sense;
+```
+
+The Cochl.Sense Edge SDK is available as a singleton class and operates with a project key. After successful initialization, you can call the `predict` method.
+
+##### `public static Sense getInstance()`
+
+*   Returns an instance of the Sense class.
+
+##### `public void init(String projectKey, String configFilePath)`
+
+*   Authenticates the user with the given project key and applies the configurations from the config file located at the specified path.
+*   **Throws `CochlException` if the initialization fails.**
+
+##### `public JSONObject predict(String filePath)`
+
+*   Predicts the file located at the given path.
+*   **Throws `CochlException` if the prediction fails.**
+
+##### `public JSONObject predict(byte[] byteArr, int sampleRate)`
+
+*   Predicts the audio data in the given array.
+*   **Throws `CochlException` if the prediction fails.**
+
+##### `public JSONObject predict(short[] shortArr, int sampleRate)`
+
+*   Predicts the audio data in the given array.
+*   **Throws `CochlException` if the prediction fails.**
+
+##### `public JSONObject predict(float[] floatArr, int sampleRate)`
+
+*   Predicts the audio data in the given array.
+*   **Throws `CochlException` if the prediction fails.**
+
+##### `public void terminate()`
+
+*   Releases the resources allocated by the SDK after successful initialization.
+
+##### `public Parameters getParameters()`
+
+*   Returns the parameters set during initialization.
+*   **Throws `CochlException` if the Sense object is not initialized.**
+
+##### `public float getWindowSize()`
+
+*   Returns the window size of the current model in use.
+*   **Throws `CochlException` if the Sense object is not initialized.**
+
+##### `public float getHopSize()`
+
+*   Returns the hop size of the current model in use.
+*   **Throws `CochlException` if the Sense object is not initialized.**
+
+##### `public ArrayList<String> getSelectedTags()`
+
+*   Returns the list of tags selected by the user.
+*   **Throws `CochlException` if the Sense object is not initialized.**
+
+##### (Deprecated) `public static String getSdkVersion()`
+
+*   Returns the version of the SDK.
+
+##### (Deprecated) `public void addInput(AudioRecord audioRecord)`
+
+*   Adds an AudioRecord object to perform prediction on an audio stream.
+
+##### (Deprecated) `public void addInput(File file)`
+
+*   Adds a File object to perform prediction on an audio file.
+
+##### (Deprecated) `public void predict(Sense.OnPredictListener listener)`
+
+*   Starts prediction with a callback function to be called after an audio frame is processed.
+
+##### (Deprecated) `public void pause()`
+
+*   Pauses the prediction for the audio stream.
+
+##### (Deprecated) `public void resume()`
+
+*   Resumes the prediction for the audio stream.
+
+##### (Deprecated) `public void stopPredict()`
+
+*   Stops the prediction and allows you to add new audio input.
+
+#### CochlException
+
+```markdown
+java.lang.Object
+    java.lang.Throwable
+        java.lang.Exception
+            java.lang.RuntimeException
+                ai.cochl.sensesdk.CochlException
+```
+
+</Tab>
+
+</Tabs>

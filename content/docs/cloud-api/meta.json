@@ -1,0 +1,14 @@
+{
+  "title": "Cochl.Sense Cloud API",
+  "pages": [
+    "getting-started",
+    "---Features---",
+    "audio-insights",
+    "sound-event-detection",
+    "speech-analysis",
+    "---Reference---",
+    "rest-api-reference",
+    "self-hosting",
+    "release-notes"
+  ]
+}

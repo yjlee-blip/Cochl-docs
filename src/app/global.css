@@ -2,6 +2,72 @@
 @import 'fumadocs-ui/css/neutral.css';
 @import 'fumadocs-ui/css/preset.css';
 
+/* Cochl.ai WDDS v3 design tokens */
+@theme {
+  --font-sans: var(--font-plex-sans);
+  --font-nav: var(--font-roboto);
+
+  /* brand scale (Blue, WDDS Primary color) */
+  --color-brand-10: #c9d2ff;
+  --color-brand-20: #b0bdff;
+  --color-brand-30: #96a7ff;
+  --color-brand-40: #7d92ff;
+  --color-brand-50: #637dff;
+  --color-brand-60: #4b68ff;
+  --color-brand-70: #445ee5;
+  --color-brand-80: #3c53cc;
+  --color-brand-90: #2d3e99;
+
+  /* product-line accent colors, reused from WDDS "Global Colors" */
+  --color-cloud-api: #832bfb;
+  --color-edge-sdk: #4b68ff;
+}
+
+@theme static {
+  --color-fd-info: #4b68ff;
+  --color-fd-warning: #ffa800;
+  --color-fd-error: #e02e2e;
+  --color-fd-success: #00c893;
+}
+
+:root {
+  --color-fd-background: #ffffff;
+  --color-fd-foreground: #333333;
+  --color-fd-muted: #f9f9fa;
+  --color-fd-muted-foreground: #72727e;
+  --color-fd-popover: #ffffff;
+  --color-fd-popover-foreground: #333333;
+  --color-fd-card: #f9f9fa;
+  --color-fd-card-foreground: #333333;
+  --color-fd-border: #e5e5e5;
+  --color-fd-primary: #4b68ff;
+  --color-fd-primary-foreground: #ffffff;
+  --color-fd-secondary: #f1f1f2;
+  --color-fd-secondary-foreground: #333333;
+  --color-fd-accent: rgba(75, 104, 255, 0.08);
+  --color-fd-accent-foreground: #2d3e99;
+  --color-fd-ring: #4b68ff;
+}
+
+.dark {
+  --color-fd-background: #1c1d1e;
+  --color-fd-foreground: rgba(255, 255, 255, 0.92);
+  --color-fd-muted: #242526;
+  --color-fd-muted-foreground: rgba(255, 255, 255, 0.56);
+  --color-fd-popover: #242526;
+  --color-fd-popover-foreground: rgba(255, 255, 255, 0.92);
+  --color-fd-card: #242526;
+  --color-fd-card-foreground: rgba(255, 255, 255, 0.92);
+  --color-fd-border: rgba(255, 255, 255, 0.08);
+  --color-fd-primary: #4057d0;
+  --color-fd-primary-foreground: #ffffff;
+  --color-fd-secondary: #242526;
+  --color-fd-secondary-foreground: rgba(255, 255, 255, 0.92);
+  --color-fd-accent: rgba(64, 87, 208, 0.16);
+  --color-fd-accent-foreground: #b0bdff;
+  --color-fd-ring: #4057d0;
+}
+
 html {
   scrollbar-gutter: stable;
 }

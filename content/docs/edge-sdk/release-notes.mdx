@@ -1,0 +1,125 @@
+---
+title: "Release Notes"
+description: "Current deep learning model: v2.40.0(Jun 01, 2026)"
+---
+_Current deep learning model:_ **v2.40.0**(Jun 01, 2026)
+
+## June 1, 2026
+
+New deep learning model `v2.40.0` has been released for the Edge SDK.
+
+*   approximately **17% AP improvement** over the previous release.
+*   the biggest accuracy gains are on small / hard-to-detect target sounds and noisy environments.
+*   no SDK API changes — existing apps pick up the new model on next initialization.
+
+* * *
+
+## August 19, 2025
+
+Cochl.Sense Edge SDK v1.6.0 released.
+
+*   add config.json for SDK configuration
+*   rename feature: “Result Abbreviation” → “Result Summary”
+*   add new features: “Audio Activity Detection”, “Automatic Gain Control”
+*   add supported platforms: Python 3.9, 3.10, 3.11, 3.12; Android NDK 26 (API level 34+)
+*   add supported hardware: GPU on JetPack 4.6.5 and 5.1.3 (Compute Capability 6.x, 7.x, 8.x)
+
+SDK for GPU is not available on [Resources](/docs/edge-sdk/resources) page. If you need, please contact [support@cochl.ai](mailto:support@cochl.ai).
+
+**Breaking changes**
+
+Since v1.6.0, the Cochl.Sense uses json file for configuration.
+
+See [Advanced Configuration page](/docs/edge-sdk/advanced-configurations) for more information.
+
+* * *
+
+## November 13, 2024
+
+Cochl.Sense Edge SDK v1.5.0 released.
+
+*   remove features: “Default Hop Size”, “Loudness Filtering”
+*   fix issue with license renewal
+*   update audio samples
+*   support multi-second model
+
+**Breaking changes**
+
+Since v1.5.0, the Cochl.Sense uses a new model with a 2-second window size and a 1-second hop size.
+
+The format of the model’s metadata has been changed. So you should delete the models you’ve been using before. You can download a new model file after removing the `.sense-sdk` directory (the default path is `~/.sense-sdk`).
+
+A new public method for `AudioSourceStream` has been added (`get_hop_size` and `get_window_size`).
+
+* * *
+
+## December 28, 2023
+
+Cochl.Sense Edge SDK v1.4.0 released.
+
+*   fix issue with gradually increasing memory usage
+*   add new features: “Default Hop Size”, “Sensitivity Control”, “Result Summary”, “Loudness Filtering”
+*   apply new licensing method
+
+**Breaking changes**
+
+Following the new licensing, there have been changes to the authentication process.
+
+See [The Sample Page](/docs/edge-sdk/samples) for more information.
+
+* * *
+
+## June 21, 2023
+
+Cochl.Sense Edge SDK v1.3.0 released.
+
+*   add “log\_level” field for log-level configuration
+*   optimize metrics processing
+*   fix error when running on armv7l platform
+*   fix issue where deleting an SDK channel on the Dashboard was not reflected
+
+* * *
+
+## September 28, 2022
+
+Cochl.Sense Edge SDK v1.2.0 released.
+
+*   require audio source file as a file path (.wav or .mp3) instead of a buffer
+*   downsample audio if sample rate > 22,050 Hz
+*   add “device\_name” field to identify device on the Dashboard
+*   remove service concept
+
+**Breaking changes**
+
+Following the new no-service concept, the model format has been modified.
+
+* * *
+
+## July 07, 2022
+
+Cochl.Sense Edge SDKK v1.1.0 released.
+
+*   support multi-tag
+*   apply new logging format
+*   fix memory leak related to metrics
+*   reduce CPU and network usage
+*   add metrics-related parameters
+*   improve pushing local metrics to server on termination
+
+**Breaking changes**
+
+Following the new multi-tag feature, the metric format has been modified.
+
+See [Upload SDK Analytics](https://api.cochl.ai/sense/sdk/v1/docs/#operation/upload_sdk_analytics) for more information.
+
+* * *
+
+## March 10, 2022
+
+First release of Cochl.Sense Edge SDK for Python (v1.0.0).
+
+* * *
+
+## March 02, 2022
+
+First release of Cochl.Sense Edge SDK for C++ (v1.0.0).

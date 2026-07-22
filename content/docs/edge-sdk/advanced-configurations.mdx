@@ -1,0 +1,92 @@
+---
+title: "Advanced Configurations"
+description: "You can customize your detection results by modifying the advanced configurations in config.json."
+---
+You can customize your detection results by modifying the advanced configurations in **config.json.**
+
+## 1. Sensitivity Control
+
+**Sensitivity Control** allows users to adjust the sensitivity so that it can be customized depending on target sounds and user scenarios. Sensitivity is adjustable on a scale from **\-2 (Very Low)** to **2 (Very High)**. Default is **0 (Normal)**. Sensitivity can be set **globally** or **individually per tag.**
+
+*   If certain tags are not being detected frequently, try increasing the sensitivity.
+*   If you experience too many false detections, lowering the sensitivity may help.
+
+![sensitivity-control](/images/docs/sensitivity_control.png)
+
+```json
+"sensitivity_control": {
+  "default_sensitivity": -1,
+  "tag_sensitivity": {
+    "Baby_cry": -2,
+    "Gunshot": 1
+  }
+}
+```
+
+The configuration above sets the default sensitivity to `-1 (LOW)`, but overrides the sensitivity for `"Baby_cry"` to `-2 (VERY_LOW)` and for `"Gunshot"` to `1 (HIGH)`.
+
+## 2. Result Summary
+
+**Result Summary** summarizes the prediction results by merging consecutive detection windows and returns the start time and duration of each detected sound tag.
+
+The **interval\_margin** parameter defines how much undetected duration between adjacent tags should still be considered part of a single event. This margin is applied globally to all tags by default, but it can also be overridden per tag to fine-tune behavior individually.
+
+**NOTE**: _The **interval\_margin**_ cannot be modified in stream mode to ensure real-time processing.
+
+![result-summary](/images/docs/result_summary.png)
+
+```json
+"result_summary": {
+  "enable": true,
+  "default_interval_margin": 2,
+  "tag_interval_margin": {
+    "Baby_cry": 5,
+    "Gunshot": 3
+  }
+}
+```
+
+The configuration above sets the global interval margin to `2` seconds, but overrides the margin for `"Baby_cry"` to `5` seconds and for `"Gunshot"` to `3` seconds.
+
+## 3. Audio Activity Detection (Stream Only)
+
+**Audio Activity Detection** analyzes incoming microphone audio and selects only high-activity segments, automatically ignoring low-volume sounds.
+
+By skipping inference during periods of minimal audio activity, this feature helps reduce hardware usage and improves overall efficiency. It also lowers the risk of false positives caused by ambiguous or quiet background sounds.
+
+When enabled, users can fine-tune the **Sensitivity** parameter to control how much audio activity is selected. Higher sensitivity allows quieter sounds to be selected and passed to inference, while lower sensitivity filters out more low-activity sounds. The sensitivity scale ranges from **\-2 (Very Low)** to **2 (Very High)**. Default is **0 (Normal)**.
+
+**NOTE**: It is recommended to **disable** this feature in the following situations:
+
+*   “When the target sound must be detected even if it is very quiet”
+*   “When the environment is not quiet, and the target sound is often masked by other noises”
+
+![audio-activity-detection](/images/docs/audio_activity_detection.png)
+
+```json
+"audio_preprocessor": {
+  "audio_activity_detection": {
+    "enable": true,
+    "history_count": 600,
+    "sensitivity": 0
+  }
+}
+```
+
+The configuration above sets the selection sensitivity to `0 (NORMAL)`. The `"history_count"` parameter defines the duration (in seconds) of recent volume data to consider for adaptive response.
+
+## 4. Automatic Gain Control (Stream Only)
+
+**Automatic Gain Control (AGC)** analyzes incoming audio streams in real time and automatically amplifies signals that are too quiet.
+
+Microphone gain can vary across devices, which may result in audio inputs that are too low in volume. This can cause a mismatch between expected and actual recognition performance. AGC helps address this issue by boosting quiet signals.
+
+![automatic-gain-control](/images/docs/automatic_gain_control.png)
+
+```json
+"audio_preprocessor": {
+  "automatic_gain_control": {
+    "enable": true
+  }
+}
+```

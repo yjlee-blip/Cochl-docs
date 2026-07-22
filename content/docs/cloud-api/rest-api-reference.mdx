@@ -1,0 +1,9 @@
+---
+title: "REST API Reference"
+description: "Use the cochl Python library for new integrations — it covers all three features (Sound Event Detection, Speech Analysis, Audio Insights) in a single…"
+---
+Use the [<code>cochl</code> Python library](https://github.com/cochlearai/cochl-sense-py) for new integrations — it covers all three features (Sound Event Detection, Speech Analysis, Audio Insights) in a single call. See each feature page’s **Via the Python library** section, and [Getting Started](/docs/cloud-api/getting-started) for the combined response schema.
+
+For environments where Python isn’t an option, the legacy **audio-session REST API** (Sound Event Detection only, `tags[]` / `probability` response shape) is still available. It uses a session-based, chunked-upload model — create a session, `PUT` 5 MB audio chunks, and `GET` paginated results — and accepts **MP3, WAV, OGG, or raw PCM** (no FLAC). Auth header: `x-api-key`. Full spec:
+
+*   **[https://api.cochl.ai/sense/api/v1/docs/](https://api.cochl.ai/sense/api/v1/docs/)**
