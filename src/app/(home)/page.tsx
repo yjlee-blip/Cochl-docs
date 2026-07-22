@@ -7,7 +7,7 @@ const entryPoints = [
     icon: House,
     title: 'Home',
     description: 'What Cochl.Sense is, and how to get your dashboard set up.',
-    accent: 'neutral',
+    accent: 'home',
   },
   {
     href: '/docs/cloud-api/getting-started',
@@ -34,17 +34,17 @@ const entryPoints = [
 ] as const;
 
 const accentClasses: Record<(typeof entryPoints)[number]['accent'], string> = {
-  neutral: 'bg-fd-foreground/[0.06] text-fd-foreground group-hover:bg-fd-foreground/10',
+  home: 'bg-[#16a34a]/10 text-[#16a34a] group-hover:bg-[#16a34a]/15',
   cloud: 'bg-[#832bfb]/10 text-[#832bfb] group-hover:bg-[#832bfb]/15',
   edge: 'bg-brand-60/10 text-brand-60 group-hover:bg-brand-60/15',
-  security: 'bg-fd-foreground/[0.06] text-fd-foreground group-hover:bg-fd-foreground/10',
+  security: 'bg-[#d97706]/10 text-[#d97706] group-hover:bg-[#d97706]/15',
 };
 
 const borderHoverClasses: Record<(typeof entryPoints)[number]['accent'], string> = {
-  neutral: 'hover:border-fd-foreground/20',
+  home: 'hover:border-[#16a34a]/40',
   cloud: 'hover:border-[#832bfb]/40',
   edge: 'hover:border-brand-60/40',
-  security: 'hover:border-fd-foreground/20',
+  security: 'hover:border-[#d97706]/40',
 };
 
 export default function HomePage() {
@@ -120,7 +120,7 @@ function EntryCard(props: (typeof entryPoints)[number]) {
   return (
     <Link
       href={href}
-      className={`group flex flex-col gap-3 rounded-xl border border-fd-border bg-fd-card p-5 transition-all hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fd-ring ${borderHoverClasses[accent]}`}
+      className={`group flex flex-col gap-3 rounded-xl border border-fd-border bg-white p-5 transition-all hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fd-ring dark:bg-fd-card ${borderHoverClasses[accent]}`}
     >
       <div className="flex items-center justify-between">
         <span
