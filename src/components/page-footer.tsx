@@ -20,7 +20,7 @@ export function PageFooter({
   editUrl: string;
 }) {
   return (
-    <div className="mt-12 flex flex-col gap-8 border-t border-fd-border pt-6">
+    <div className="mt-12 flex flex-col gap-8 border-t border-fd-border pt-8">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <FeedbackButtons />
         <Link
