@@ -112,6 +112,18 @@ header .items-end.gap-6.overflow-x-auto {
   }
 }
 
+/*
+ * Fumadocs' mobile tab-dropdown icon wrapper (size-9 shrink-0 empty:hidden
+ * md:size-5) is a plain block box, so its icon sits on the inline baseline
+ * instead of centered — it reads as slightly higher than the label next to
+ * it. Center it to match.
+ */
+div[class*='shrink-0'][class*='empty:hidden'][class*='size-9'] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 html > body[data-scroll-locked] {
   margin-right: 0px !important;
   --removed-body-scroll-bar-size: 0px !important;
