@@ -97,8 +97,8 @@ function Hero() {
 
 function EntryPoints() {
   return (
-    <section className="mx-auto w-full max-w-4xl px-6 pb-20">
-      <div className="mb-6 flex items-center gap-3">
+    <section className="mx-auto w-full max-w-5xl px-6 pb-24">
+      <div className="mb-8 flex items-center gap-3">
         <span className="h-px flex-1 bg-fd-border" />
         <span className="text-xs font-medium tracking-[0.14em] text-fd-muted-foreground uppercase">
           Start here
@@ -106,7 +106,7 @@ function EntryPoints() {
         <span className="h-px flex-1 bg-fd-border" />
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
         {entryPoints.map((item, index) => (
           <EntryCard key={item.href} index={index} {...item} />
         ))}
@@ -121,19 +121,19 @@ function EntryCard(props: (typeof entryPoints)[number] & { index: number }) {
     <Link
       href={href}
       style={{ animationDelay: `${index * 80}ms` }}
-      className={`group flex flex-col gap-3 rounded border border-fd-border bg-white px-5 py-[30px] transition-all hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fd-ring animate-fade-up dark:bg-fd-card ${borderHoverClasses[accent]}`}
+      className={`group flex flex-col gap-4 rounded border border-fd-border bg-white p-8 transition-all hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fd-ring animate-fade-up dark:bg-fd-card ${borderHoverClasses[accent]}`}
     >
       <div className="flex items-center justify-between">
         <span
-          className={`flex size-9 items-center justify-center rounded transition-colors ${accentClasses[accent]}`}
+          className={`flex size-14 items-center justify-center rounded transition-colors ${accentClasses[accent]}`}
         >
-          <Icon className="size-[18px]" />
+          <Icon className="size-7" />
         </span>
         <ArrowRight className="size-4 -translate-x-1 text-fd-muted-foreground opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" />
       </div>
       <div>
-        <h3 className="text-sm font-medium text-fd-foreground">{title}</h3>
-        <p className="mt-1 text-sm text-fd-muted-foreground">{description}</p>
+        <h3 className="text-base font-medium text-fd-foreground">{title}</h3>
+        <p className="mt-1.5 text-base text-fd-muted-foreground">{description}</p>
       </div>
     </Link>
   );
