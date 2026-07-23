@@ -124,6 +124,19 @@ div[class*='shrink-0'][class*='empty:hidden'][class*='size-9'] {
   justify-content: center;
 }
 
+/*
+ * Fumadocs' sidebar always renders "main" nav links (Dashboard, Contact us
+ * — see layout.shared.tsx) before the page tree, with no prop to reorder
+ * them. Both sit in the same flex column as the tree, so nudge them after
+ * it with `order` instead of restructuring the sidebar.
+ */
+#nd-sidebar a[href='https://dashboard.cochl.ai/'],
+#nd-sidebar a[href='https://www.cochl.ai/contact-us/'],
+#nd-sidebar-mobile a[href='https://dashboard.cochl.ai/'],
+#nd-sidebar-mobile a[href='https://www.cochl.ai/contact-us/'] {
+  order: 1;
+}
+
 html > body[data-scroll-locked] {
   margin-right: 0px !important;
   --removed-body-scroll-bar-size: 0px !important;
