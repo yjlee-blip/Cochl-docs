@@ -137,6 +137,14 @@ div[class*='shrink-0'][class*='empty:hidden'][class*='size-9'] {
   order: 1;
 }
 
+/* Give the (now reordered) Dashboard link the same top gap the tree's own
+   section labels use (e.g. "Cochl.Sense", `mt-6` in sidebar/base.js) so it
+   reads as its own group instead of running into the last tree item. */
+#nd-sidebar a[href='https://dashboard.cochl.ai/'],
+#nd-sidebar-mobile a[href='https://dashboard.cochl.ai/'] {
+  margin-top: 1.5rem;
+}
+
 html > body[data-scroll-locked] {
   margin-right: 0px !important;
   --removed-body-scroll-bar-size: 0px !important;
