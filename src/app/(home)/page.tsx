@@ -76,7 +76,7 @@ function Hero() {
         <h1 className="text-6xl font-bold tracking-tight text-fd-foreground sm:text-7xl">
           Cochl.Sense
         </h1>
-        <p className="mt-6 max-w-xl text-xl text-fd-muted-foreground sm:text-2xl">
+        <p className="mt-6 max-w-2xl text-xl text-fd-muted-foreground sm:text-2xl">
           Turn audio into structured insight — sound events, speech, and scene
           context — from the cloud to the edge.
         </p>
