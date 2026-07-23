@@ -59,7 +59,7 @@ export default function HomePage() {
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden px-6 pt-20 pb-16 text-center sm:pt-28 sm:pb-20">
+    <section className="relative overflow-hidden px-6 pt-24 pb-20 text-center sm:pt-32 sm:pb-24">
       <div
         aria-hidden
         className="pointer-events-none absolute top-[-12rem] left-1/2 h-[28rem] w-[42rem] -translate-x-1/2 rounded-full opacity-[0.16] blur-[110px]"
@@ -68,26 +68,26 @@ function Hero() {
         }}
       />
 
-      <div className="relative mx-auto flex max-w-2xl flex-col items-center">
-        <div className="mb-6 flex items-center gap-2 text-xs font-medium tracking-[0.14em] text-fd-muted-foreground uppercase">
+      <div className="relative mx-auto flex max-w-3xl flex-col items-center">
+        <div className="mb-7 flex items-center gap-2 text-xs font-medium tracking-[0.14em] text-fd-muted-foreground uppercase">
           <span>Documentation</span>
         </div>
 
-        <h1 className="text-4xl font-bold tracking-tight text-fd-foreground sm:text-5xl">
+        <h1 className="text-6xl font-bold tracking-tight text-fd-foreground sm:text-7xl">
           Cochl.Sense
         </h1>
-        <p className="mt-4 max-w-lg text-base text-fd-muted-foreground sm:text-lg">
+        <p className="mt-6 max-w-xl text-xl text-fd-muted-foreground sm:text-2xl">
           Turn audio into structured insight — sound events, speech, and scene
           context — from the cloud to the edge.
         </p>
 
-        <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
           <Link
             href="/docs/home/introduction"
-            className="inline-flex items-center gap-2.5 rounded bg-fd-primary px-5 py-2.5 text-sm font-medium text-fd-primary-foreground transition-colors hover:bg-brand-70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fd-ring"
+            className="inline-flex items-center gap-2.5 rounded bg-fd-primary px-8 py-4 text-lg font-semibold text-fd-primary-foreground transition-colors hover:bg-brand-70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fd-ring"
           >
             Get Started
-            <ArrowRight className="size-4" />
+            <ArrowRight className="size-5" />
           </Link>
         </div>
       </div>
