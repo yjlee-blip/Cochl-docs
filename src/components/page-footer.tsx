@@ -27,7 +27,7 @@ export function PageFooter({
           href={editUrl}
           target="_blank"
           rel="noreferrer noopener"
-          className="inline-flex items-center gap-1.5 rounded-lg border border-fd-border px-3 py-1.5 text-sm font-medium text-fd-foreground transition-colors hover:bg-fd-muted"
+          className="inline-flex items-center gap-1.5 rounded border border-fd-border px-3 py-1.5 text-sm font-medium text-fd-foreground transition-colors hover:bg-fd-muted"
         >
           <Pencil className="size-3.5" />
           Suggest edits
@@ -91,7 +91,7 @@ function FeedbackButtons() {
           type="button"
           onClick={() => setChoice('yes')}
           className={cn(
-            'inline-flex items-center gap-1.5 rounded-lg border border-fd-border px-3 py-1.5 text-sm font-medium transition-colors hover:bg-fd-muted',
+            'inline-flex items-center gap-1.5 rounded border border-fd-border px-3 py-1.5 text-sm font-medium transition-colors hover:bg-fd-muted',
             choice === 'yes' && 'border-fd-primary bg-fd-primary/10 text-fd-primary',
           )}
         >
@@ -102,7 +102,7 @@ function FeedbackButtons() {
           type="button"
           onClick={() => setChoice('no')}
           className={cn(
-            'inline-flex items-center gap-1.5 rounded-lg border border-fd-border px-3 py-1.5 text-sm font-medium transition-colors hover:bg-fd-muted',
+            'inline-flex items-center gap-1.5 rounded border border-fd-border px-3 py-1.5 text-sm font-medium transition-colors hover:bg-fd-muted',
             choice === 'no' && 'border-fd-primary bg-fd-primary/10 text-fd-primary',
           )}
         >

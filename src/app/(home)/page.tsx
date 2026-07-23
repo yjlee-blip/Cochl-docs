@@ -84,7 +84,7 @@ function Hero() {
         <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
           <Link
             href="/docs/home/introduction"
-            className="inline-flex items-center gap-2 rounded-lg bg-fd-primary px-5 py-2.5 text-sm font-medium text-fd-primary-foreground transition-colors hover:bg-brand-70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fd-ring"
+            className="inline-flex items-center gap-2 rounded bg-fd-primary px-5 py-2.5 text-sm font-medium text-fd-primary-foreground transition-colors hover:bg-brand-70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fd-ring"
           >
             Get Started
             <ArrowRight className="size-4" />
@@ -121,11 +121,11 @@ function EntryCard(props: (typeof entryPoints)[number] & { index: number }) {
     <Link
       href={href}
       style={{ animationDelay: `${index * 80}ms` }}
-      className={`group flex flex-col gap-3 rounded-xl border border-fd-border bg-white p-5 transition-all hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fd-ring animate-fade-up dark:bg-fd-card ${borderHoverClasses[accent]}`}
+      className={`group flex flex-col gap-3 rounded border border-fd-border bg-white p-5 transition-all hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fd-ring animate-fade-up dark:bg-fd-card ${borderHoverClasses[accent]}`}
     >
       <div className="flex items-center justify-between">
         <span
-          className={`flex size-9 items-center justify-center rounded-lg transition-colors ${accentClasses[accent]}`}
+          className={`flex size-9 items-center justify-center rounded transition-colors ${accentClasses[accent]}`}
         >
           <Icon className="size-[18px]" />
         </span>

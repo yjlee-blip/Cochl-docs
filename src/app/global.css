@@ -24,17 +24,19 @@
 }
 
 @theme static {
+  /* Light/Semantic + Dark/Semantic */
   --color-fd-info: #4b68ff;
-  --color-fd-warning: #ffa800;
+  --color-fd-warning: #ffab00;
   --color-fd-error: #e02e2e;
-  --color-fd-success: #00c893;
+  --color-fd-success: #00c853;
 }
 
 :root {
-  --color-fd-background: #ffffff;
+  /* Web/Light Theme alias + Light/Mono */
+  --color-fd-background: #fafafa;
   --color-fd-foreground: #333333;
   --color-fd-muted: #f9f9fa;
-  --color-fd-muted-foreground: #72727e;
+  --color-fd-muted-foreground: #727273;
   --color-fd-popover: #ffffff;
   --color-fd-popover-foreground: #333333;
   --color-fd-card: #f9f9fa;
@@ -50,19 +52,20 @@
 }
 
 .dark {
-  --color-fd-background: #1c1d1e;
-  --color-fd-foreground: rgba(255, 255, 255, 0.92);
+  /* Web/Dark Theme alias + Dark/Mono + Dark/Primary */
+  --color-fd-background: #171717;
+  --color-fd-foreground: #ffffff;
   --color-fd-muted: #242526;
-  --color-fd-muted-foreground: rgba(255, 255, 255, 0.56);
+  --color-fd-muted-foreground: #73787a;
   --color-fd-popover: #242526;
-  --color-fd-popover-foreground: rgba(255, 255, 255, 0.92);
+  --color-fd-popover-foreground: #ffffff;
   --color-fd-card: #242526;
-  --color-fd-card-foreground: rgba(255, 255, 255, 0.92);
+  --color-fd-card-foreground: #ffffff;
   --color-fd-border: rgba(255, 255, 255, 0.08);
   --color-fd-primary: #4057d0;
   --color-fd-primary-foreground: #ffffff;
   --color-fd-secondary: #242526;
-  --color-fd-secondary-foreground: rgba(255, 255, 255, 0.92);
+  --color-fd-secondary-foreground: #ffffff;
   --color-fd-accent: rgba(64, 87, 208, 0.16);
   --color-fd-accent-foreground: #b0bdff;
   --color-fd-ring: #4057d0;
@@ -70,6 +73,12 @@
 
 html {
   scrollbar-gutter: stable;
+}
+
+/* WDDS: Roboto is reserved for the Global Navigation Bar only — every
+   other piece of content typography uses IBM Plex Sans (--font-sans). */
+header {
+  font-family: var(--font-nav), sans-serif;
 }
 
 @keyframes fade-up {
