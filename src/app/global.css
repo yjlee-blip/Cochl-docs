@@ -81,6 +81,11 @@ header {
   font-family: var(--font-nav), sans-serif;
 }
 
+/* WDDS Tabs spec: 42px gap between tab items (Fumadocs' default is 24px) */
+header .items-end.gap-6.overflow-x-auto {
+  gap: 2.625rem;
+}
+
 @keyframes fade-up {
   from {
     opacity: 0;
