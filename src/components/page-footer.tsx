@@ -3,11 +3,51 @@
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight, Globe, Pencil, ThumbsDown, ThumbsUp } from 'lucide-react';
 import { useState } from 'react';
-import { cn } from '@/lib/cn';
 
 interface FooterLink {
   name: React.ReactNode;
   url: string;
+}
+
+interface FeedbackReason {
+  id: string;
+  label: string;
+  hint?: string;
+}
+
+const FEEDBACK_REASONS: Record<'yes' | 'no', { heading: string; reasons: FeedbackReason[] }> = {
+  yes: {
+    heading: 'What did you like?',
+    reasons: [
+      { id: 'accurate', label: 'Accurate', hint: 'Matches how the API or SDK actually behaves.' },
+      { id: 'clear', label: 'Clear explanation', hint: 'Easy to follow and understand.' },
+      { id: 'working-sample', label: 'Working code sample', hint: 'The example ran without changes.' },
+      { id: 'unblocked', label: 'Solved my problem', hint: 'Got me past the issue I came here for.' },
+      { id: 'other', label: 'Another reason' },
+    ],
+  },
+  no: {
+    heading: 'What went wrong?',
+    reasons: [
+      { id: 'inaccurate', label: 'Inaccurate', hint: "Doesn't match the actual behavior." },
+      { id: 'missing-info', label: 'Missing information', hint: "Couldn't find what I needed." },
+      { id: 'confusing', label: 'Confusing', hint: 'Too complex or hard to follow.' },
+      { id: 'broken-sample', label: 'Code sample errors', hint: 'The example errored or gave unexpected results.' },
+      { id: 'other', label: 'Another reason' },
+    ],
+  },
+};
+
+// Swap this out for a real request (e.g. `fetch('/api/feedback', ...)`) once
+// there's somewhere to store submissions.
+async function submitFeedback(payload: {
+  sentiment: 'yes' | 'no';
+  reason: string;
+  comment: string;
+  path: string;
+}) {
+  console.info('[feedback]', payload);
+  await new Promise((resolve) => setTimeout(resolve, 400));
 }
 
 export function PageFooter({
@@ -19,19 +59,23 @@ export function PageFooter({
   next?: FooterLink;
   editUrl: string;
 }) {
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
+
   return (
     <div className="mt-12 flex flex-col gap-8 border-t border-fd-border pt-8">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <FeedbackButtons />
-        <Link
-          href={editUrl}
-          target="_blank"
-          rel="noreferrer noopener"
-          className="inline-flex items-center gap-2.5 rounded border border-fd-border px-4 py-1.5 text-sm font-medium text-fd-foreground transition-colors hover:bg-fd-muted"
-        >
-          <Pencil className="size-3.5" />
-          Suggest edits
-        </Link>
+        <Feedback onOpenChange={setFeedbackOpen} />
+        {!feedbackOpen && (
+          <Link
+            href={editUrl}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="inline-flex items-center gap-2.5 rounded border border-fd-border px-4 py-1.5 text-sm font-medium text-fd-foreground transition-colors hover:bg-fd-muted"
+          >
+            <Pencil className="size-3.5" />
+            Suggest edits
+          </Link>
+        )}
       </div>
 
       {(previous || next) && (
@@ -80,36 +124,121 @@ export function PageFooter({
   );
 }
 
-function FeedbackButtons() {
-  const [choice, setChoice] = useState<'yes' | 'no' | null>(null);
+type FeedbackStep =
+  | { name: 'idle' }
+  | { name: 'selecting'; sentiment: 'yes' | 'no'; reason: string | null; comment: string }
+  | { name: 'submitting'; sentiment: 'yes' | 'no'; reason: string; comment: string }
+  | { name: 'submitted' };
+
+function Feedback({ onOpenChange }: { onOpenChange: (open: boolean) => void }) {
+  const [step, setStep] = useState<FeedbackStep>({ name: 'idle' });
+
+  function choose(sentiment: 'yes' | 'no') {
+    setStep({ name: 'selecting', sentiment, reason: null, comment: '' });
+    onOpenChange(true);
+  }
+
+  async function submit() {
+    if (step.name !== 'selecting' || !step.reason) return;
+    const { sentiment, reason, comment } = step;
+    setStep({ name: 'submitting', sentiment, reason, comment });
+    await submitFeedback({ sentiment, reason, comment, path: window.location.pathname });
+    setStep({ name: 'submitted' });
+    onOpenChange(true);
+    setTimeout(() => {
+      setStep({ name: 'idle' });
+      onOpenChange(false);
+    }, 5000);
+  }
+
+  if (step.name === 'idle') {
+    return (
+      <div className="flex items-center gap-3">
+        <span className="text-sm text-fd-muted-foreground">Was this page helpful?</span>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => choose('yes')}
+            className="inline-flex items-center gap-2.5 rounded border border-fd-border px-4 py-1.5 text-sm font-medium transition-colors hover:bg-fd-muted"
+          >
+            <ThumbsUp className="size-3.5" />
+            Yes
+          </button>
+          <button
+            type="button"
+            onClick={() => choose('no')}
+            className="inline-flex items-center gap-2.5 rounded border border-fd-border px-4 py-1.5 text-sm font-medium transition-colors hover:bg-fd-muted"
+          >
+            <ThumbsDown className="size-3.5" />
+            No
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (step.name === 'submitted') {
+    return (
+      <p className="text-sm font-medium text-fd-foreground">
+        Thanks for helping us improve the Cochl.Sense docs!
+      </p>
+    );
+  }
+
+  const { heading, reasons } = FEEDBACK_REASONS[step.sentiment];
+  const submitting = step.name === 'submitting';
 
   return (
-    <div className="flex items-center gap-3">
-      <span className="text-sm text-fd-muted-foreground">Was this page helpful?</span>
-      <div className="flex items-center gap-2">
-        <button
-          type="button"
-          onClick={() => setChoice('yes')}
-          className={cn(
-            'inline-flex items-center gap-2.5 rounded border border-fd-border px-4 py-1.5 text-sm font-medium transition-colors hover:bg-fd-muted',
-            choice === 'yes' && 'border-fd-primary bg-fd-primary/10 text-fd-primary',
-          )}
-        >
-          <ThumbsUp className="size-3.5" />
-          Yes
-        </button>
-        <button
-          type="button"
-          onClick={() => setChoice('no')}
-          className={cn(
-            'inline-flex items-center gap-2.5 rounded border border-fd-border px-4 py-1.5 text-sm font-medium transition-colors hover:bg-fd-muted',
-            choice === 'no' && 'border-fd-primary bg-fd-primary/10 text-fd-primary',
-          )}
-        >
-          <ThumbsDown className="size-3.5" />
-          No
-        </button>
+    <div className="w-full">
+      <p className="mb-3 text-sm font-medium text-fd-foreground">{heading}</p>
+      <div className="flex flex-col gap-3">
+        {reasons.map((reason) => {
+          const selected = step.reason === reason.id;
+          return (
+            <div key={reason.id}>
+              <label className="flex cursor-pointer items-start gap-2.5">
+                <input
+                  type="radio"
+                  name="feedback-reason"
+                  className="mt-0.5 size-4 accent-fd-primary"
+                  checked={selected}
+                  onChange={() =>
+                    setStep({ name: 'selecting', sentiment: step.sentiment, reason: reason.id, comment: step.comment })
+                  }
+                />
+                <span className="text-sm">
+                  <span className="font-medium text-fd-foreground">{reason.label}</span>
+                  {reason.hint && <span className="block text-fd-muted-foreground">{reason.hint}</span>}
+                </span>
+              </label>
+              {selected && (
+                <textarea
+                  autoFocus
+                  rows={3}
+                  value={step.comment}
+                  onChange={(e) =>
+                    setStep({ name: 'selecting', sentiment: step.sentiment, reason: reason.id, comment: e.target.value })
+                  }
+                  placeholder={
+                    reason.id === 'other'
+                      ? 'Tell us more about your experience.'
+                      : '(Optional) The more detail, the better.'
+                  }
+                  className="mt-2 ml-[26px] w-full max-w-md rounded border border-fd-border bg-fd-background p-3 text-sm text-fd-foreground placeholder:text-fd-muted-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-fd-ring"
+                />
+              )}
+            </div>
+          );
+        })}
       </div>
+      <button
+        type="button"
+        disabled={!step.reason || submitting}
+        onClick={submit}
+        className="mt-4 rounded border border-fd-border px-4 py-1.5 text-sm font-medium text-fd-foreground transition-colors hover:bg-fd-muted disabled:cursor-not-allowed disabled:text-fd-muted-foreground disabled:hover:bg-transparent"
+      >
+        {submitting ? 'Submitting…' : 'Submit'}
+      </button>
     </div>
   );
 }
