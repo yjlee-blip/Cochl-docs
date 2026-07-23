@@ -32,6 +32,9 @@
 }
 
 :root {
+  /* WDDS shadow token — same value in both themes per the design system */
+  --shadow-web-modal: 0px 0px 20px 0px rgba(152, 152, 152, 0.1);
+
   /* Web/Light Theme alias + Light/Mono */
   --color-fd-background: #fafafa;
   --color-fd-foreground: #333333;

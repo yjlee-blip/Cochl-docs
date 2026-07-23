@@ -121,7 +121,7 @@ function EntryCard(props: (typeof entryPoints)[number] & { index: number }) {
     <Link
       href={href}
       style={{ animationDelay: `${index * 80}ms` }}
-      className={`group flex flex-col gap-4 rounded border border-fd-border bg-white p-8 transition-all hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fd-ring animate-fade-up dark:bg-fd-card ${borderHoverClasses[accent]}`}
+      className={`group flex flex-col gap-4 rounded border border-fd-border bg-white p-8 transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-web-modal)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fd-ring animate-fade-up dark:bg-fd-card ${borderHoverClasses[accent]}`}
     >
       <div className="flex items-center justify-between">
         <span
