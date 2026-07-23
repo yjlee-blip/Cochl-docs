@@ -27,16 +27,12 @@ export function baseOptions(): BaseLayoutProps {
         text: 'Dashboard',
         url: externalLinks.dashboard,
         external: true,
-        // shown in the desktop top nav; the mobile menu gets its own copy
-        // pinned to the bottom instead (see docs/layout.tsx sidebar.footer)
-        on: 'nav',
       },
       {
         type: 'main',
         text: 'Contact us',
         url: externalLinks.contactUs,
         external: true,
-        on: 'nav',
       },
     ],
   };

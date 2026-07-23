@@ -1,7 +1,6 @@
 import { source } from '@/lib/source';
 import { DocsLayout } from 'fumadocs-ui/layouts/notebook';
 import { baseOptions } from '@/lib/layout.shared';
-import { MobileFooterLinks } from '@/components/mobile-footer-links';
 import { CircleHelp, Cloud, Cpu, House, Shield } from 'lucide-react';
 import type { ReactNode } from 'react';
 
@@ -40,7 +39,6 @@ export default function Layout({ children }: LayoutProps<'/docs'>) {
           };
         },
       }}
-      sidebar={{ footer: MobileFooterLinks }}
       {...baseOptions()}
     >
       {children}
